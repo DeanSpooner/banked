@@ -1,7 +1,8 @@
 import { ThemedText } from '@/src/components/ThemedText';
 import { ThemedView } from '@/src/components/ThemedView';
 import { useBankHolidays } from '@/src/hooks/useBankHolidays';
-import { ScrollView, View } from 'react-native';
+import { addToCalendar } from '@/src/utils/addToCalendar';
+import { Pressable, ScrollView, View } from 'react-native';
 
 export default function HomeScreen() {
   const { bankHolidays, isLoading, error } = useBankHolidays();
@@ -56,6 +57,11 @@ export default function HomeScreen() {
           >
             <ThemedText type='defaultSemiBold'>{holiday.title}</ThemedText>
             <ThemedText>{holiday.date}</ThemedText>
+            <Pressable
+              onPress={() => addToCalendar(holiday.title, holiday.date)}
+            >
+              <ThemedText>Add to calendar</ThemedText>
+            </Pressable>
           </View>
         ))}
       </ScrollView>
