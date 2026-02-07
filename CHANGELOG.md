@@ -5,3 +5,4 @@ This is a file containing the general process of me making the Banked app - this
 3. Created Zod schemas for the API, and each bank holiday. Starting to create functions (TDD with Jest) to process this data so it will eventually be an array of the next five unique bank holidays across the entirety of the UK. Starting with `mergeUkBankHolidays` to just merge the regions' bank holidays into one large array of all bank holidays, including duplicates;
 4. Added test for `mergeUkBankHolidays` for when data is actually invalid (would expect Zod to throw an error in this case);
 5. Added and implemented Husky as a pre-commit hook to run all tests at each commit, before I start adding any more tests. Purposefully broke one of the above tests to check it worked, which it did;
+6. Added `removeDuplicateHolidays` function and tests to remove all duplicate bank holidays from a BankHoliday array;
