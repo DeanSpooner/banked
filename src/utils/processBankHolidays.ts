@@ -43,7 +43,7 @@ export const removeDuplicateHolidays = (
  * @param holidays - an array of bank holidays.
  * @param includeToday - a boolean to determine whether the current date should be included as a valid bank holiday, or whether it should be counted as in
  * the past. Optional param, defaults to true.
- * @returns  An array of all BankHolidays whose dates fall within the next six months.
+ * @returns An array of all BankHolidays whose dates fall within the next six months.
  */
 export const filterHolidaysOverSixMonthsAway = (
   holidays: BankHoliday[],
@@ -74,4 +74,32 @@ export const filterHolidaysOverSixMonthsAway = (
   });
 
   return filteredHolidays;
+};
+
+/**
+ * This function runs all the above helper functions from start-to-finish, getting all the bank holiday data from the API, removing all duplicates,
+ * filtering out bank holidays that are not within the next six months. It then sorts all remaining dates (as these are not necessarily sorted; Scottish
+ * and Northern Irish bank holidays will be at the end of the array, and dates in regions may not always be sorted in the API response anyway), and finally
+ * returns the first five results, which should be the next five bank holidays in the UK.
+ * @param rawData - the data we are passing into the function, which should hopefully be valid BankHoliday data
+ * from the GOV endpoint.
+ * @returns An array of the next five unique bank holidays in the UK.
+ */
+export const processBankHolidays = (rawData: unknown): BankHoliday[] => {
+  const allBankHolidays = mergeUkBankHolidays(rawData);
+
+  const allUniqueBankHolidays = removeDuplicateHolidays(allBankHolidays);
+
+  const bankHolidaysWithinSixMonths = filterHolidaysOverSixMonthsAway(
+    allUniqueBankHolidays,
+  );
+
+  return (
+    bankHolidaysWithinSixMonths
+      // Sort the dates in the array
+      // (Scottish/NI bank holidays will be at the end of the array before this, and we should not assume the API already sorts these by date):
+      .sort((a, b) => a.date.localeCompare(b.date))
+      // Return the first five results, i.e. the current/next five unique bank holidays across the UK:
+      .slice(0, 5)
+  );
 };

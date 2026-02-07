@@ -1,7 +1,9 @@
 import { ZodError } from 'zod';
+import { mockData } from '../mockData';
 import {
   filterHolidaysOverSixMonthsAway,
   mergeUkBankHolidays,
+  processBankHolidays,
   removeDuplicateHolidays,
 } from '../processBankHolidays';
 
@@ -95,5 +97,43 @@ describe('filterHolidaysOverSixMonthsAway', () => {
     expect(result[0].date).toBe('2026-04-05');
     expect(result[1].title).toBe('School Holidays');
     expect(result[1].date).toBe('2026-07-20');
+  });
+});
+
+describe('processBankHolidays', () => {
+  // Need to set a fake timer so my tests don't fall over in the future!
+  beforeAll(() => {
+    jest.useFakeTimers().setSystemTime(new Date('2026-02-07'));
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
+  });
+
+  it('should return the next five unique bank holidays in the UK', () => {
+    const result = processBankHolidays(mockData);
+
+    expect(result).toHaveLength(5);
+    expect(result[0].title).toBe("St Patrick's Day");
+    expect(result[0].date).toBe('2026-03-17');
+    expect(result[1].title).toBe('Good Friday');
+    expect(result[1].date).toBe('2026-04-03');
+    expect(result[2].title).toBe('Easter Monday');
+    expect(result[2].date).toBe('2026-04-06');
+    expect(result[3].title).toBe('Early May bank holiday');
+    expect(result[3].date).toBe('2026-05-04');
+    expect(result[4].title).toBe('Spring bank holiday');
+    expect(result[4].date).toBe('2026-05-25');
+  });
+
+  it('should return the dates in ascending order by date', () => {
+    const result = processBankHolidays(mockData);
+
+    // Do not bother checking the last date, it obviously will not have a date after it to compare to:
+    for (let i = 0; i < result.length - 1; i++) {
+      // Each date should be 'less' than the date that comes after it in the array.
+      // Seems that JS can compare ISO dates in 'YYYY-MM-DD' with comparison operators to easily perform this check:
+      expect(result[i].date < result[i + 1].date);
+    }
   });
 });
