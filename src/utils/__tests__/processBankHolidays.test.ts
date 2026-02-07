@@ -98,6 +98,15 @@ describe('filterHolidaysOverSixMonthsAway', () => {
     expect(result[1].title).toBe('School Holidays');
     expect(result[1].date).toBe('2026-07-20');
   });
+
+  it('should respect the includeToday parameter', () => {
+    const today = '2026-02-07';
+    const mockData = [{ title: 'Today', date: today }];
+
+    expect(filterHolidaysOverSixMonthsAway(mockData, false)).toHaveLength(0);
+    expect(filterHolidaysOverSixMonthsAway(mockData, true)).toHaveLength(1);
+    expect(filterHolidaysOverSixMonthsAway(mockData)).toHaveLength(1);
+  });
 });
 
 describe('processBankHolidays', () => {
@@ -133,7 +142,7 @@ describe('processBankHolidays', () => {
     for (let i = 0; i < result.length - 1; i++) {
       // Each date should be 'less' than the date that comes after it in the array.
       // Seems that JS can compare ISO dates in 'YYYY-MM-DD' with comparison operators to easily perform this check:
-      expect(result[i].date < result[i + 1].date);
+      expect(result[i].date < result[i + 1].date).toBe(true);
     }
   });
 });
