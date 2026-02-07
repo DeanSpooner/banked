@@ -6,19 +6,53 @@ import { View } from 'react-native';
 export default function HomeScreen() {
   const { bankHolidays, isLoading, error } = useBankHolidays();
 
-  if (isLoading) return <ThemedText>Loading!</ThemedText>;
-  if (error) return <ThemedText>Error: {error}</ThemedText>;
+  if (isLoading) {
+    return (
+      <ThemedView
+        style={{
+          height: '100%',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <ThemedText>Loading!</ThemedText>
+      </ThemedView>
+    );
+  }
+
+  if (error) {
+    return (
+      <ThemedView
+        style={{
+          height: '100%',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <ThemedText>Error: {error}</ThemedText>
+      </ThemedView>
+    );
+  }
 
   return (
-    <ThemedView style={{ height: '100%' }}>
+    <ThemedView
+      style={{
+        height: '100%',
+        padding: 32,
+      }}
+    >
       <ThemedText type='title'>Banked</ThemedText>
       <ThemedText type='subtitle'>The bank holiday checker app</ThemedText>
 
-      <View style={{ flex: 1, paddingTop: 50 }}>
+      <View style={{ flex: 1, paddingTop: 32 }}>
         {bankHolidays.map((holiday, index) => (
           <View
             key={index}
-            style={{ padding: 10, borderBottomWidth: 1, borderColor: '#ccc' }}
+            style={{
+              paddingVertical: 12,
+              borderBottomWidth: 1,
+              borderColor: '#ccc',
+            }}
           >
             <ThemedText type='defaultSemiBold'>{holiday.title}</ThemedText>
             <ThemedText>{holiday.date}</ThemedText>

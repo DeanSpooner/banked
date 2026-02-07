@@ -1,8 +1,47 @@
-# Welcome to your Expo app 👋
+# Banked by [Dean Spooner](https://github.com/DeanSpooner) 📆
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Your bank holiday checker app!
 
-## Get started
+## Description
+
+Banked is a iOS and Android app where users can see upcoming bank holidays in the United Kingdom. In Banked, you will be able to:
+
+- see the five next bank holidays across the United Kingdom;
+- edit the name and date of bank holidays;
+- save bank holidays to your device's calendar.
+
+## Development Progress
+
+- [x] Data fetching and processing from the GOV.uk website;
+- [x] Display of data;
+- [] Edit functionality;
+- [] Calendar integration;
+- [] Styling;
+- [] Testing (partially completed Jest tests).
+
+## Stack
+
+This project uses the following tech stack:
+
+- Expo;
+- React Native;
+- Jest;
+- TypeScript;
+- Husky;
+- date-fns.
+
+## Future aims
+
+As well as the above, Banked intends to also add the following features in the future:
+
+- [] Pull-to-refresh re-fetching of bank holiday data;
+- [] Offline support with cached data;
+- [] Swipe gestures;
+- [] i18n;
+- [] User settings (languages, theme override, cached data deletion);
+- [] Animations.
+
+## Running this repo locally:
 
 1. Install dependencies
 
@@ -25,26 +64,4 @@ In the output, you'll find options to open the app in a
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## By [Dean Spooner](https://github.com/DeanSpooner) 📆

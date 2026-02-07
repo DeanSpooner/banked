@@ -11,3 +11,4 @@ This is a file containing the general process of me making the Banked app - this
 9. Added minor tests I forgot to add earlier to check that the boolean `isToday` is actually behaving properly in `filterHolidaysOverSixMonthsAway`;
 10. Implemented simple fetching of the data using `processBankHolidays` directly in the main page for now. Also removed `axios` since I realised I didn't need it for a simple JSON GET request;
 11. Factored fetching and state-setting into separate `useBankHolidays` custom hook;
+12. Re-wrote the `README.md` to be more personalised and reflective of me and my other projects, as well as to note down current project progress and possible bonus ideas;
