@@ -1,4 +1,3 @@
-import { addMonths, parseISO } from 'date-fns';
 import { ZodError } from 'zod';
 import {
   filterHolidaysOverSixMonthsAway,
@@ -90,13 +89,6 @@ describe('filterHolidaysOverSixMonthsAway', () => {
     ];
 
     const result = filterHolidaysOverSixMonthsAway(mockHolidays);
-    console.log({ result });
-
-    const mockHolsWithAddedDates = mockHolidays.map(h =>
-      addMonths(parseISO(h.date), 6),
-    );
-
-    console.log({ mockHolsWithAddedDates });
 
     expect(result).toHaveLength(2);
     expect(result[0].title).toBe('Easter');
