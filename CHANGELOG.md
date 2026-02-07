@@ -14,4 +14,5 @@ This is a file containing the general process of me making the Banked app - this
 12. Re-wrote the `README.md` to be more personalised and reflective of me and my other projects, as well as to note down current project progress and possible bonus ideas;
 13. Noticed Expo's template had defaulted to locking the orientation of this app as portrait. I think either orientation should be allowed, so removed this from `app.json`. Added `expo-calendar` as a package in preparation for adding bank holidays to device calendars;
 14. `addToCalendar` util function added, lifting, implementing and editing a lot of the example code from Expo docs seems to have worked really well - tested and confirmed I could add events to my calendars on my iPhone, iOS Simulator and Android Emulator (all via Expo Go - will see if these still work with development builds later), as well as checking it handled denied permissions as expected;
-15. Created a couple of basic Pixelmator icons for the app, integrated these as the app icon, splash screen icon and web favicon, and updated `README.md` to use these.
+15. Created a couple of basic Pixelmator icons for the app, integrated these as the app icon, splash screen icon and web favicon, and updated `README.md` to use these;
+16. Slight change to MaterialUI icons used in tabs, and rename of "Home" to "Calendar".

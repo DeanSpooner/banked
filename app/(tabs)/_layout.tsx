@@ -22,9 +22,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name='index'
         options={{
-          title: 'Home',
+          title: 'Calendar',
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name='house.fill' color={color} />
+            <IconSymbol size={28} name='calendar' color={color} />
           ),
         }}
       />
@@ -33,7 +33,7 @@ export default function TabLayout() {
         options={{
           title: 'About',
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name='house.fill' color={color} />
+            <IconSymbol size={28} name='info' color={color} />
           ),
         }}
       />
