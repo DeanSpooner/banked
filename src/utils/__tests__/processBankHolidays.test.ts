@@ -1,3 +1,4 @@
+import { ZodError } from 'zod';
 import { mergeUkBankHolidays } from '../processBankHolidays';
 
 describe('mergeUkBankHolidays', () => {
@@ -33,5 +34,15 @@ describe('mergeUkBankHolidays', () => {
         }),
       ]),
     );
+  });
+
+  it('should throw a Zod validation error if the data structure is invalid', () => {
+    const invalidMockData = {
+      'england-and-wales': {
+        division: 'england-and-wales',
+      },
+    };
+
+    expect(() => mergeUkBankHolidays(invalidMockData)).toThrow(ZodError);
   });
 });
