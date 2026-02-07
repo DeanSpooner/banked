@@ -12,3 +12,4 @@ This is a file containing the general process of me making the Banked app - this
 10. Implemented simple fetching of the data using `processBankHolidays` directly in the main page for now. Also removed `axios` since I realised I didn't need it for a simple JSON GET request;
 11. Factored fetching and state-setting into separate `useBankHolidays` custom hook;
 12. Re-wrote the `README.md` to be more personalised and reflective of me and my other projects, as well as to note down current project progress and possible bonus ideas;
+13. Noticed Expo's template had defaulted to locking the orientation of this app as portrait. I think either orientation should be allowed, so removed this from `app.json`. Added `expo-calendar` as a package in preparation for adding bank holidays to device calendars.

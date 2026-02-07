@@ -1,7 +1,7 @@
 import { ThemedText } from '@/src/components/ThemedText';
 import { ThemedView } from '@/src/components/ThemedView';
 import { useBankHolidays } from '@/src/hooks/useBankHolidays';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 export default function HomeScreen() {
   const { bankHolidays, isLoading, error } = useBankHolidays();
@@ -44,7 +44,7 @@ export default function HomeScreen() {
       <ThemedText type='title'>Banked</ThemedText>
       <ThemedText type='subtitle'>The bank holiday checker app</ThemedText>
 
-      <View style={{ flex: 1, paddingTop: 32 }}>
+      <ScrollView style={{ flex: 1, paddingTop: 32 }}>
         {bankHolidays.map((holiday, index) => (
           <View
             key={index}
@@ -58,7 +58,7 @@ export default function HomeScreen() {
             <ThemedText>{holiday.date}</ThemedText>
           </View>
         ))}
-      </View>
+      </ScrollView>
     </ThemedView>
   );
 }
