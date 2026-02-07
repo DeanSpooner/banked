@@ -1,5 +1,7 @@
 # Banked by [Dean Spooner](https://github.com/DeanSpooner) 📆
 
+<img src='./assets/images/Banked.png' width='200px'/>
+
 Your bank holiday checker app!
 
 ## Description
@@ -15,7 +17,7 @@ Banked is a iOS and Android app where users can see upcoming bank holidays in th
 - [x] Data fetching and processing from the GOV.uk website;
 - [x] Display of data;
 - [] Edit functionality;
-- [] Calendar integration;
+- [x] Calendar integration;
 - [] Styling;
 - [] Testing (partially completed Jest tests).
 
@@ -28,7 +30,10 @@ This project uses the following tech stack:
 - Jest;
 - TypeScript;
 - Husky;
-- date-fns.
+- date-fns;
+- Xcode/iOS Simulator;
+- Android Studio/Android Emulator
+- Expo Go.
 
 ## Future aims
 
@@ -65,3 +70,5 @@ In the output, you'll find options to open the app in a
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
 ## By [Dean Spooner](https://github.com/DeanSpooner) 📆
+
+<img src='./assets/images/BankedBIcon.png' width='200px'/>

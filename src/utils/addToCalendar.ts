@@ -2,6 +2,13 @@ import * as Calendar from 'expo-calendar';
 import { Alert, Platform } from 'react-native';
 
 export async function addToCalendar(title: string, dateString: string) {
+  if (Platform.OS === 'web') {
+    window.alert(
+      'Sorry! Adding to calendars is currently only available via the Banked mobile app.',
+    );
+    return;
+  }
+
   const { status } = await Calendar.requestCalendarPermissionsAsync();
 
   if (status !== 'granted') {
