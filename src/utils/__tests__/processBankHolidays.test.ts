@@ -1,5 +1,7 @@
+import { addMonths, parseISO } from 'date-fns';
 import { ZodError } from 'zod';
 import {
+  filterHolidaysOverSixMonthsAway,
   mergeUkBankHolidays,
   removeDuplicateHolidays,
 } from '../processBankHolidays';
@@ -67,4 +69,39 @@ describe('removeDuplicateHolidays', () => {
   expect(result[1].date).toBe('2026-08-31');
   expect(result[2].title).toBe('Christmas');
   expect(result[2].date).toBe('2026-12-25');
+});
+
+describe('filterHolidaysOverSixMonthsAway', () => {
+  // Need to set a fake timer so my tests don't fall over in the future!
+  beforeAll(() => {
+    jest.useFakeTimers().setSystemTime(new Date('2026-02-07'));
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
+  });
+
+  it('should keep holidays within the next 6 months and discard others', () => {
+    const mockHolidays = [
+      { title: 'New Year', date: '2026-01-01' },
+      { title: 'Easter', date: '2026-04-05' },
+      { title: 'School Holidays', date: '2026-07-20' },
+      { title: 'Christmas', date: '2026-12-25' },
+    ];
+
+    const result = filterHolidaysOverSixMonthsAway(mockHolidays);
+    console.log({ result });
+
+    const mockHolsWithAddedDates = mockHolidays.map(h =>
+      addMonths(parseISO(h.date), 6),
+    );
+
+    console.log({ mockHolsWithAddedDates });
+
+    expect(result).toHaveLength(2);
+    expect(result[0].title).toBe('Easter');
+    expect(result[0].date).toBe('2026-04-05');
+    expect(result[1].title).toBe('School Holidays');
+    expect(result[1].date).toBe('2026-07-20');
+  });
 });
