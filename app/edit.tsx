@@ -143,7 +143,7 @@ const EditScreen = () => {
     }
   };
 
-  if (holiday) {
+  if (!holiday) {
     return (
       <ThemedView style={styles.container}>
         <ThemedText type='subtitle'>

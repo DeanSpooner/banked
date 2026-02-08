@@ -3,10 +3,27 @@ import { ThemedView } from '@/src/components/ThemedView';
 import { useBankHolidays } from '@/src/hooks/useBankHolidays';
 import { addToCalendar } from '@/src/utils/addToCalendar';
 import { router } from 'expo-router';
-import { Pressable, ScrollView, View } from 'react-native';
+import { Alert, Platform, Pressable, ScrollView, View } from 'react-native';
 
 export default function HomeScreen() {
   const { bankHolidays, isLoading, error } = useBankHolidays();
+
+  const handleAddPress = (title: string, date: string) => {
+    const message = `Would you like to add "${title}" on ${date} to your device calendar?`;
+
+    if (Platform.OS === 'web') {
+      // Already added messaging in addToCalendar to handle web, go straight there:
+      addToCalendar(title, date);
+    } else {
+      Alert.alert('Add to Calendar', message, [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Add',
+          onPress: () => addToCalendar(title, date),
+        },
+      ]);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -45,9 +62,10 @@ export default function HomeScreen() {
     >
       <ThemedText type='title'>Banked</ThemedText>
       <ThemedText type='subtitle'>The bank holiday checker app</ThemedText>
+      <ThemedText>Touch a bank holiday to edit its details:</ThemedText>
 
       <ScrollView style={{ flex: 1, paddingTop: 32 }}>
-        {bankHolidays.map((holiday, index) => (
+        {bankHolidays.map(({ title, date }, index) => (
           <View
             key={index}
             style={{
@@ -76,8 +94,8 @@ export default function HomeScreen() {
               }}
             >
               <View style={{ alignItems: 'center' }}>
-                <ThemedText type='defaultSemiBold'>{holiday.title}</ThemedText>
-                <ThemedText>{holiday.date}</ThemedText>
+                <ThemedText type='defaultSemiBold'>{title}</ThemedText>
+                <ThemedText>{date}</ThemedText>
               </View>
             </Pressable>
             <View
@@ -95,7 +113,7 @@ export default function HomeScreen() {
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
-                onPress={() => addToCalendar(holiday.title, holiday.date)}
+                onPress={() => handleAddPress(title, date)}
               >
                 <ThemedText>Add to calendar</ThemedText>
               </Pressable>

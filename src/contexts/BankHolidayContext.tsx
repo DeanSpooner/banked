@@ -5,7 +5,6 @@ interface BankHolidayContextType {
   bankHolidays: BankHoliday[];
   setBankHolidays: (bankHolidays: BankHoliday[]) => void;
   originalBankHolidays: BankHoliday[];
-  setOriginalBankHolidays: (bankHolidays: BankHoliday[]) => void;
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
   error: string | null;
@@ -57,8 +56,6 @@ export const BankHolidayProvider = ({ children }: { children: ReactNode }) => {
         bankHolidays,
         setBankHolidays,
         originalBankHolidays,
-        // TODO: Unsure if I need to actually pass setOriginalBankHolidays in, passing in for now but may not be needed later. Check later:
-        setOriginalBankHolidays,
         isLoading,
         setIsLoading,
         error,

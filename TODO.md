@@ -1,0 +1,6 @@
+- Add in `react-native-safe-area-context` https://docs.expo.dev/versions/latest/sdk/safe-area-context/ for safe area to use in the app away from status bars etc.;
+- Sort dates on home screen - if a user edits a date, it may not necessarily be sorted properly after. Suspect I will need to split out the sorting part of `processBankHolidays` into another helper function with tests;
+- Format date for users - should use date-fns to convert to DD-MM-YYYY;
+- General styling - obviously not been the focus up to this point;
+- If I get round to adding pull-to-refresh, I may want a modal to confirm the user wants to do this if they have any edited dates, as these will be deleted;
+- Any of the extras in the `README.md`, if I can fit any in in the time constraints of the task.
