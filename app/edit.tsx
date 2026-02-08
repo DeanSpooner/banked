@@ -69,8 +69,34 @@ const EditScreen = () => {
         : Alert.alert('Error', 'Date must not be in the past.');
     }
 
-    updateBankHoliday(holidayIndex, { ...holiday, title, date });
-    router.back();
+    const isUnchanged = title === holiday.title && date === holiday.date;
+
+    // If the user hasn't actually made any changes, just let them go back without any modal confirming it:
+    if (isUnchanged) {
+      router.back();
+      return;
+    }
+
+    const confirmSave = () => {
+      updateBankHoliday(holidayIndex, { ...holiday, title, date });
+      router.back();
+    };
+
+    // Confirmation modals for all platforms, to prevent them saving too soon:
+    if (Platform.OS === 'web') {
+      if (window.confirm('Are you sure you want to save these changes?')) {
+        confirmSave();
+      }
+    } else {
+      Alert.alert(
+        'Save Changes',
+        'Are you sure you want to save these changes?',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          { text: 'Save', onPress: confirmSave },
+        ],
+      );
+    }
   };
 
   return (
@@ -118,8 +144,16 @@ const EditScreen = () => {
           disabled={title.length === 0}
         />
         <Button
-          title='Reset to Original'
+          title='Reset to original bank holiday'
           color='green'
+          onPress={() => {
+            resetBankHoliday(holidayIndex);
+            router.back();
+          }}
+        />
+        <Button
+          title='← Back to calendar'
+          color='red'
           onPress={() => {
             resetBankHoliday(holidayIndex);
             router.back();
