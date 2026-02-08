@@ -1,7 +1,13 @@
 import { ThemedText } from '@/src/components/ThemedText';
 import { ThemedView } from '@/src/components/ThemedView';
 import { useBankHolidaysContext } from '@/src/contexts/BankHolidayContext';
-import { addMonths, isBefore, isWithinInterval, parseISO } from 'date-fns';
+import {
+  addMonths,
+  format,
+  isBefore,
+  isWithinInterval,
+  parseISO,
+} from 'date-fns';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
@@ -12,6 +18,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import { Calendar } from 'react-native-calendars';
 
 const EditScreen = () => {
   const router = useRouter();
@@ -24,13 +31,14 @@ const EditScreen = () => {
 
   const [title, setTitle] = useState(holiday?.title || '');
   const [date, setDate] = useState(holiday?.date || '');
+  const originalDate = holiday?.date;
 
   if (!holiday) return <ThemedText>Holiday not found</ThemedText>;
 
   const handleSave = () => {
     // Check to see whether the entered title is empty. Save button should be disabled at this point anyway,
     // but keeping this as an extra guard (e.g. if user edits Elements Tree on web):
-    if (title.length === 0) {
+    if (title.trim().length === 0) {
       return Platform.OS === 'web'
         ? window.alert('Title cannot be empty.')
         : Alert.alert('Error', 'Title cannot be empty.');
@@ -40,7 +48,8 @@ const EditScreen = () => {
     const today = new Date();
     const sixMonthsFromNow = addMonths(today, 6);
 
-    // Check to see whether the entered date is within the next six months:
+    // Check to see whether the entered date is within the next six months. The calendar should prevent this ever being chosen,
+    // but keeping this as an extra guard anyway:
     if (
       !isWithinInterval(newDate, {
         start: today,
@@ -52,7 +61,8 @@ const EditScreen = () => {
         : Alert.alert('Error', 'Date must be within the next 6 months.');
     }
 
-    // Check to see whether the entered date is in the past:
+    // Check to see whether the entered date is in the past. The calendar should prevent this ever being chosen,
+    // but keeping this as an extra guard anyway:
     if (isBefore(newDate, today)) {
       return Platform.OS === 'web'
         ? window.alert('Date must not be in the past.')
@@ -80,12 +90,25 @@ const EditScreen = () => {
         onChangeText={setTitle}
         placeholder='Type your bank holiday name here...'
       />
-      <ThemedText type='label'>Date (YYYY-MM-DD)</ThemedText>
-      <TextInput
-        style={styles.input}
-        value={date}
-        onChangeText={setDate}
-        placeholder='2026-04-03'
+      <ThemedText type='label'>Date</ThemedText>
+      <Calendar
+        current={date}
+        minDate={format(new Date(), 'yyyy-MM-dd')}
+        maxDate={format(addMonths(new Date(), 6), 'yyyy-MM-dd')}
+        onDayPress={day => setDate(day.dateString)}
+        markedDates={{
+          [originalDate]: {
+            selected: true,
+            selectedColor: '#e1f5fe',
+            selectedTextColor: '#0387b8',
+            dotColor: '#0387b8',
+            marked: true,
+          },
+          [date]: {
+            selected: true,
+            selectedColor: '#0387b8',
+          },
+        }}
       />
 
       <ThemedView style={styles.buttonContainer}>

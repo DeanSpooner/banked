@@ -41,6 +41,7 @@ This project uses the following tech stack:
 As well as the above, Banked intends to also add the following features in the future:
 
 - [x] Reset edit bank holidays back to their original entry;
+- [] Confirmation modals for editing and reset bank holiday data, and for adding to calendar;
 - [] Pull-to-refresh re-fetching of bank holiday data;
 - [] Offline support with cached data;
 - [] Swipe gestures;
