@@ -35,12 +35,10 @@ const EditScreen = () => {
   const holidayIndex = parseInt(index);
   const holiday = bankHolidays[holidayIndex];
   const originalHoliday = originalBankHolidays[holidayIndex];
+  const dateOnEditScreenEntry = holiday?.date;
 
   const [title, setTitle] = useState(holiday?.title || '');
   const [date, setDate] = useState(holiday?.date || '');
-  const dateOnEditScreenEntry = holiday?.date;
-
-  if (!holiday) return <ThemedText>Holiday not found</ThemedText>;
 
   const handleSave = () => {
     // Check to see whether the entered title is empty. Save button should be disabled at this point anyway,
@@ -144,6 +142,24 @@ const EditScreen = () => {
       );
     }
   };
+
+  if (holiday) {
+    return (
+      <ThemedView style={styles.container}>
+        <ThemedText type='subtitle'>
+          Sorry, we encountered an issue trying to view this bank holiday.
+        </ThemedText>
+        <Button
+          title='← Back to calendar'
+          color='green'
+          onPress={() => {
+            resetBankHoliday(holidayIndex);
+            router.back();
+          }}
+        />
+      </ThemedView>
+    );
+  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

@@ -21,3 +21,4 @@ This is a file containing the general process of me making the Banked app - this
 19. Swapped out the text input for the date on the Edit screen with a calendar from `react-native-calendar` - I did try using `DateTimeSpinner` from a different package, but found it really unintuitive and inconsistent, didn't validate nicely etc. This calendar seems to just work much easier across all platforms tested, and slots in much nicer with how my solution was already looking in the Edit screen;
 20. Added in confirmation modals for saving an edited bank holiday;
 21. Added in confirmation modals for resetting an edited bank holiday. Also fixed keyboards so they are dismissed much more easily - found trying to save changes after typing on iOS really difficult, so have added dismiss calls to the Edit screen;
+22. Slightly tidied up the 'No bank holiday found' case on the Edit screen, while it was on my mind.
