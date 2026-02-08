@@ -13,9 +13,11 @@ import { useState } from 'react';
 import {
   Alert,
   Button,
+  Keyboard,
   Platform,
   StyleSheet,
   TextInput,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
@@ -23,15 +25,20 @@ import { Calendar } from 'react-native-calendars';
 const EditScreen = () => {
   const router = useRouter();
   const { index } = useLocalSearchParams<{ index: string }>();
-  const { bankHolidays, updateBankHoliday, resetBankHoliday } =
-    useBankHolidaysContext();
+  const {
+    bankHolidays,
+    originalBankHolidays,
+    updateBankHoliday,
+    resetBankHoliday,
+  } = useBankHolidaysContext();
 
   const holidayIndex = parseInt(index);
   const holiday = bankHolidays[holidayIndex];
+  const originalHoliday = originalBankHolidays[holidayIndex];
 
   const [title, setTitle] = useState(holiday?.title || '');
   const [date, setDate] = useState(holiday?.date || '');
-  const originalDate = holiday?.date;
+  const dateOnEditScreenEntry = holiday?.date;
 
   if (!holiday) return <ThemedText>Holiday not found</ThemedText>;
 
@@ -99,68 +106,106 @@ const EditScreen = () => {
     }
   };
 
-  return (
-    <ThemedView style={styles.container}>
-      <ThemedText type='subtitle'>
-        Edit the bank holiday details. Title and Date are both required fields.
-      </ThemedText>
-      <View style={{ flexDirection: 'row' }}>
-        <ThemedText type='label'>Name</ThemedText>
-        {title.length === 0 && (
-          <ThemedText type='warning'>Name cannot be empty!</ThemedText>
-        )}
-      </View>
-      <TextInput
-        style={styles.input}
-        value={title}
-        onChangeText={setTitle}
-        placeholder='Type your bank holiday name here...'
-      />
-      <ThemedText type='label'>Date</ThemedText>
-      <Calendar
-        current={date}
-        minDate={format(new Date(), 'yyyy-MM-dd')}
-        maxDate={format(addMonths(new Date(), 6), 'yyyy-MM-dd')}
-        onDayPress={day => setDate(day.dateString)}
-        markedDates={{
-          [originalDate]: {
-            selected: true,
-            selectedColor: '#e1f5fe',
-            selectedTextColor: '#0387b8',
-            dotColor: '#0387b8',
-            marked: true,
-          },
-          [date]: {
-            selected: true,
-            selectedColor: '#0387b8',
-          },
-        }}
-      />
+  const handleReset = () => {
+    const isCurrentlyOriginal =
+      holiday.title === originalHoliday.title &&
+      holiday.date === originalHoliday.date;
 
-      <ThemedView style={styles.buttonContainer}>
-        <Button
-          title='Save Changes'
-          onPress={handleSave}
-          disabled={title.length === 0}
+    if (isCurrentlyOriginal) {
+      router.back();
+      return;
+    }
+
+    const confirmReset = () => {
+      resetBankHoliday(holidayIndex);
+      router.back();
+    };
+
+    if (Platform.OS === 'web') {
+      if (
+        window.confirm(
+          'This will revert all changes in this edited bank holiday back to the original bank holiday. Are you sure?',
+        )
+      ) {
+        confirmReset();
+      }
+    } else {
+      Alert.alert(
+        'Reset Bank Holiday',
+        'This will revert all changes in this edited bank holiday back to the original bank holiday. Are you sure?',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          {
+            text: 'Reset to original bank holiday',
+            onPress: confirmReset,
+            style: 'destructive',
+          },
+        ],
+      );
+    }
+  };
+
+  return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ThemedView style={styles.container}>
+        <View style={{ flexDirection: 'row' }}>
+          <ThemedText type='label'>Name</ThemedText>
+          {title.length === 0 && (
+            <ThemedText type='warning'>Name cannot be empty!</ThemedText>
+          )}
+        </View>
+        <TextInput
+          style={styles.input}
+          value={title}
+          onChangeText={setTitle}
+          placeholder='Type your bank holiday name here...'
         />
-        <Button
-          title='Reset to original bank holiday'
-          color='green'
-          onPress={() => {
-            resetBankHoliday(holidayIndex);
-            router.back();
+        <ThemedText type='label'>Date</ThemedText>
+        <Calendar
+          current={date}
+          minDate={format(new Date(), 'yyyy-MM-dd')}
+          maxDate={format(addMonths(new Date(), 6), 'yyyy-MM-dd')}
+          onDayPress={day => {
+            Keyboard.dismiss();
+            setDate(day.dateString);
+          }}
+          markedDates={{
+            [dateOnEditScreenEntry]: {
+              selected: true,
+              selectedColor: '#e1f5fe',
+              selectedTextColor: '#0387b8',
+              dotColor: '#0387b8',
+              marked: true,
+            },
+            [date]: {
+              selected: true,
+              selectedColor: '#0387b8',
+            },
           }}
         />
-        <Button
-          title='← Back to calendar'
-          color='red'
-          onPress={() => {
-            resetBankHoliday(holidayIndex);
-            router.back();
-          }}
-        />
+
+        <ThemedView style={styles.buttonContainer}>
+          <Button
+            title='Save changes'
+            onPress={handleSave}
+            disabled={title.length === 0}
+          />
+          <Button
+            title='Reset to original bank holiday'
+            color='red'
+            onPress={handleReset}
+          />
+          <Button
+            title='← Back to calendar'
+            color='green'
+            onPress={() => {
+              resetBankHoliday(holidayIndex);
+              router.back();
+            }}
+          />
+        </ThemedView>
       </ThemedView>
-    </ThemedView>
+    </TouchableWithoutFeedback>
   );
 };
 
