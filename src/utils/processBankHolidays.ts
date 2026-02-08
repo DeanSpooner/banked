@@ -6,7 +6,11 @@ import {
   parseISO,
   startOfToday,
 } from 'date-fns';
-import { ApiResponseSchema, BankHoliday } from '../api/schemas';
+import {
+  ApiResponseSchema,
+  BankHoliday,
+  BankHolidayWithId,
+} from '../api/schemas';
 
 /**
  * This function should merge the `england-and-wales`, `scotland` and `northern-ireland` regions into one array
@@ -86,6 +90,20 @@ export const sortHolidays = (holidays: BankHoliday[]) => {
 };
 
 /**
+ * This is a simple function that assigns a ID each bank holiday in an array.
+ * @param holidays - an array of bank holidays.
+ * @returns An array of bank holidays with IDs.
+ */
+export const assignHolidayIds = (
+  holidays: BankHoliday[],
+): BankHolidayWithId[] => {
+  return holidays.map(holiday => ({
+    ...holiday,
+    id: `${holiday.date}-${holiday.title.replaceAll(' ', '_')}`,
+  }));
+};
+
+/**
  * This function runs all the above helper functions from start-to-finish, getting all the bank holiday data from the API, removing all duplicates,
  * filtering out bank holidays that are not within the next six months. It then sorts all remaining dates (as these are not necessarily sorted; Scottish
  * and Northern Irish bank holidays will be at the end of the array, and dates in regions may not always be sorted in the API response anyway), and finally
@@ -94,7 +112,7 @@ export const sortHolidays = (holidays: BankHoliday[]) => {
  * from the GOV endpoint.
  * @returns An array of the next five unique bank holidays in the UK.
  */
-export const processBankHolidays = (rawData: unknown): BankHoliday[] => {
+export const processBankHolidays = (rawData: unknown): BankHolidayWithId[] => {
   const allBankHolidays = mergeUkBankHolidays(rawData);
 
   const allUniqueBankHolidays = removeDuplicateHolidays(allBankHolidays);
@@ -105,6 +123,8 @@ export const processBankHolidays = (rawData: unknown): BankHoliday[] => {
 
   const sortedHolidays = sortHolidays(bankHolidaysWithinSixMonths);
 
+  const sortedHolidaysWithIds = assignHolidayIds(sortedHolidays);
+
   // Return the first five results, i.e. the current/next five unique bank holidays across the UK:
-  return sortedHolidays.slice(0, 5);
+  return sortedHolidaysWithIds.slice(0, 5);
 };

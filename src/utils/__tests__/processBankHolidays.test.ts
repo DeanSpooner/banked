@@ -1,6 +1,7 @@
 import { ZodError } from 'zod';
 import { mockData } from '../mockData';
 import {
+  assignHolidayIds,
   filterHolidaysOverSixMonthsAway,
   mergeUkBankHolidays,
   processBankHolidays,
@@ -168,5 +169,24 @@ describe('processBankHolidays', () => {
       // Seems that JS can compare ISO dates in 'YYYY-MM-DD' with comparison operators to easily perform this check:
       expect(result[i].date < result[i + 1].date).toBe(true);
     }
+  });
+});
+
+describe('assignHolidayIds', () => {
+  it('should assign an ID to each object based on its date and title', () => {
+    const mockHolidays = [
+      { title: 'New Year', date: '2026-01-01' },
+      { title: 'Easter', date: '2026-04-05' },
+      { title: 'School Holidays', date: '2026-07-20' },
+      { title: 'Christmas', date: '2026-12-25' },
+    ];
+
+    const result = assignHolidayIds(mockHolidays);
+
+    expect(result).toHaveLength(4);
+    expect(result[0].id).toBe('2026-01-01-New_Year');
+    expect(result[1].id).toBe('2026-04-05-Easter');
+    expect(result[2].id).toBe('2026-07-20-School_Holidays');
+    expect(result[3].id).toBe('2026-12-25-Christmas');
   });
 });

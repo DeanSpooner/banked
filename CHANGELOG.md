@@ -25,4 +25,5 @@ This is a file containing the general process of me making the Banked app - this
 23. Added in confirmation modals for adding a bank holiday to the device's calendar. Also addressed an old TODO about whether to pass `setOriginalBankHolidays` in the `useBankHolidaysContext` context - I'm fairly confident at this point it's not needed, so removing. Also added a `TODO.md` file as I'm finding lots of bits I need to sort out soon, and probably should note them down somewhere;
 24. Added in `SafeAreaProvider` from `react-native-safe-area-context`, and integrated into `ThemedView`. Made new `ThemedScreenWrapper` and applied to Home screen, About screen and Edit screen;
 25. Improved the date strings on the Home screen to be more readable, e.g. '2026-02-08' is now '8th February 2026';
-26. Added `sortHolidays` function and tests (simply ripped out of `processBankHolidays`), as I anticipate I could use this to sort out bank holiday dates after the user has edited some of them.
+26. Added `sortHolidays` function and tests (simply ripped out of `processBankHolidays`), as I anticipate I could use this to sort out bank holiday dates after the user has edited some of them;
+27. Added `assignHolidayIds` function and tests to assign IDs to bank holidays to make sorting them safer. Also added new `BankHolidayWithId` type.

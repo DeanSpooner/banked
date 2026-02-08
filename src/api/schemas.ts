@@ -16,3 +16,6 @@ export const ApiResponseSchema = z.record(
 );
 
 export type BankHoliday = z.infer<typeof BankHolidaySchema>;
+export type BankHolidayWithId = BankHoliday & {
+  id: string;
+};
