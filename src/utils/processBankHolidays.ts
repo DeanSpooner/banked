@@ -85,7 +85,7 @@ export const filterHolidaysOverSixMonthsAway = (
  * @param holidays - an array of bank holidays.
  * @returns An array of sorted bank holidays.
  */
-export const sortHolidays = (holidays: BankHoliday[]) => {
+export const sortHolidays = <T extends BankHoliday>(holidays: T[]): T[] => {
   return holidays.sort((a, b) => a.date.localeCompare(b.date));
 };
 

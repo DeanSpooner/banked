@@ -26,4 +26,5 @@ This is a file containing the general process of me making the Banked app - this
 24. Added in `SafeAreaProvider` from `react-native-safe-area-context`, and integrated into `ThemedView`. Made new `ThemedScreenWrapper` and applied to Home screen, About screen and Edit screen;
 25. Improved the date strings on the Home screen to be more readable, e.g. '2026-02-08' is now '8th February 2026';
 26. Added `sortHolidays` function and tests (simply ripped out of `processBankHolidays`), as I anticipate I could use this to sort out bank holiday dates after the user has edited some of them;
-27. Added `assignHolidayIds` function and tests to assign IDs to bank holidays to make sorting them safer. Also added new `BankHolidayWithId` type.
+27. Added `assignHolidayIds` function and tests to assign IDs to bank holidays to make sorting them safer. Also added new `BankHolidayWithId` type;
+28. Context functions all updated to correctly use IDs instead of indexes.

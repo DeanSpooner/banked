@@ -1,17 +1,21 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
-import { BankHoliday } from '../api/schemas';
+import { BankHolidayWithId } from '../api/schemas';
+import { sortHolidays } from '../utils/processBankHolidays';
 
 interface BankHolidayContextType {
-  bankHolidays: BankHoliday[];
-  setBankHolidays: (bankHolidays: BankHoliday[]) => void;
-  originalBankHolidays: BankHoliday[];
+  bankHolidays: BankHolidayWithId[];
+  setBankHolidays: (bankHolidays: BankHolidayWithId[]) => void;
+  originalBankHolidays: BankHolidayWithId[];
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
   error: string | null;
   setError: (error: string | null) => void;
-  initialiseBankHolidays: (bankHolidays: BankHoliday[]) => void;
-  updateBankHoliday: (index: number, updatedBankHoliday: BankHoliday) => void;
-  resetBankHoliday: (index: number) => void;
+  initialiseBankHolidays: (bankHolidays: BankHolidayWithId[]) => void;
+  updateBankHoliday: (
+    id: string,
+    updatedBankHoliday: BankHolidayWithId,
+  ) => void;
+  resetBankHoliday: (id: string) => void;
 }
 
 const BankHolidayContext = createContext<BankHolidayContextType | undefined>(
@@ -19,34 +23,41 @@ const BankHolidayContext = createContext<BankHolidayContextType | undefined>(
 );
 
 export const BankHolidayProvider = ({ children }: { children: ReactNode }) => {
-  const [bankHolidays, setBankHolidays] = useState<BankHoliday[]>([]);
+  const [bankHolidays, setBankHolidays] = useState<BankHolidayWithId[]>([]);
   const [originalBankHolidays, setOriginalBankHolidays] = useState<
-    BankHoliday[]
+    BankHolidayWithId[]
   >([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const initialiseBankHolidays = (fetchedBankHolidays: BankHoliday[]) => {
+  const initialiseBankHolidays = (fetchedBankHolidays: BankHolidayWithId[]) => {
     setBankHolidays(fetchedBankHolidays);
     setOriginalBankHolidays(fetchedBankHolidays);
   };
 
-  const updateBankHoliday = (index: number, updatedHoliday: BankHoliday) => {
+  const updateBankHoliday = (id: string, updatedHoliday: BankHolidayWithId) => {
     setBankHolidays(prev => {
-      const next = [...prev];
-      next[index] = updatedHoliday;
-      return next;
+      // Replace the bank holiday that matches the ID with this updatedHoliday:
+      const newHolidays = prev.map(h => (h.id === id ? updatedHoliday : h));
+
+      return sortHolidays(newHolidays);
     });
   };
 
-  const resetBankHoliday = (index: number) => {
+  const resetBankHoliday = (id: string) => {
     setBankHolidays(prev => {
-      const next = [...prev];
-      // Probably not needed, but just in case the user tries to reset a bank holiday before any data exists:
-      if (originalBankHolidays[index]) {
-        next[index] = originalBankHolidays[index];
+      // Find the specific original holiday that matches our ID:
+      const original = originalBankHolidays.find(h => h.id === id);
+
+      // If we cannot find it, just return current state:
+      if (!original) {
+        return prev;
       }
-      return next;
+
+      // Replace the modified bank holiday with the original one:
+      const resetList = prev.map(h => (h.id === id ? original : h));
+
+      return sortHolidays(resetList);
     });
   };
 
