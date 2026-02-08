@@ -5,6 +5,7 @@ import {
   mergeUkBankHolidays,
   processBankHolidays,
   removeDuplicateHolidays,
+  sortHolidays,
 } from '../processBankHolidays';
 
 describe('mergeUkBankHolidays', () => {
@@ -106,6 +107,29 @@ describe('filterHolidaysOverSixMonthsAway', () => {
     expect(filterHolidaysOverSixMonthsAway(mockData, false)).toHaveLength(0);
     expect(filterHolidaysOverSixMonthsAway(mockData, true)).toHaveLength(1);
     expect(filterHolidaysOverSixMonthsAway(mockData)).toHaveLength(1);
+  });
+});
+
+describe('sortHolidays', () => {
+  it('should sort the holidays in ascending order of their dates', () => {
+    const mockUnsortedHolidays = [
+      { title: 'Christmas', date: '2026-12-25' },
+      { title: 'New Year', date: '2026-01-01' },
+      { title: 'School Holidays', date: '2026-07-20' },
+      { title: 'Easter', date: '2026-04-05' },
+    ];
+
+    const result = sortHolidays(mockUnsortedHolidays);
+
+    expect(result).toHaveLength(4);
+    expect(result[0].title).toBe('New Year');
+    expect(result[0].date).toBe('2026-01-01');
+    expect(result[1].title).toBe('Easter');
+    expect(result[1].date).toBe('2026-04-05');
+    expect(result[2].title).toBe('School Holidays');
+    expect(result[2].date).toBe('2026-07-20');
+    expect(result[3].title).toBe('Christmas');
+    expect(result[3].date).toBe('2026-12-25');
   });
 });
 

@@ -77,6 +77,15 @@ export const filterHolidaysOverSixMonthsAway = (
 };
 
 /**
+ * This is a simple function that sorts and returns an array of passed-in bank holidays, returning them in ascending order, i.e. from earliest to latest.
+ * @param holidays - an array of bank holidays.
+ * @returns An array of sorted bank holidays.
+ */
+export const sortHolidays = (holidays: BankHoliday[]) => {
+  return holidays.sort((a, b) => a.date.localeCompare(b.date));
+};
+
+/**
  * This function runs all the above helper functions from start-to-finish, getting all the bank holiday data from the API, removing all duplicates,
  * filtering out bank holidays that are not within the next six months. It then sorts all remaining dates (as these are not necessarily sorted; Scottish
  * and Northern Irish bank holidays will be at the end of the array, and dates in regions may not always be sorted in the API response anyway), and finally
@@ -94,12 +103,8 @@ export const processBankHolidays = (rawData: unknown): BankHoliday[] => {
     allUniqueBankHolidays,
   );
 
-  return (
-    bankHolidaysWithinSixMonths
-      // Sort the dates in the array
-      // (Scottish/NI bank holidays will be at the end of the array before this, and we should not assume the API already sorts these by date):
-      .sort((a, b) => a.date.localeCompare(b.date))
-      // Return the first five results, i.e. the current/next five unique bank holidays across the UK:
-      .slice(0, 5)
-  );
+  const sortedHolidays = sortHolidays(bankHolidaysWithinSixMonths);
+
+  // Return the first five results, i.e. the current/next five unique bank holidays across the UK:
+  return sortedHolidays.slice(0, 5);
 };
