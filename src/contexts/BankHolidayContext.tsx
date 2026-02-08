@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from 'react';
+import { createContext, ReactNode, useContext, useState } from 'react';
 import { BankHoliday } from '../api/schemas';
 
 interface BankHolidayContextType {
@@ -71,4 +71,14 @@ export const BankHolidayProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </BankHolidayContext.Provider>
   );
+};
+
+export const useBankHolidaysContext = () => {
+  const context = useContext(BankHolidayContext);
+  if (!context) {
+    throw new Error(
+      'useBankHolidaysContext must be used within a BankHolidayProvider.',
+    );
+  }
+  return context;
 };

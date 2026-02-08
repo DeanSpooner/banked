@@ -1,12 +1,17 @@
 import { BANK_HOLIDAYS_API_URL } from '@/constants/constants';
-import { useCallback, useEffect, useState } from 'react';
-import { BankHoliday } from '../api/schemas';
+import { useCallback, useEffect } from 'react';
+import { useBankHolidaysContext } from '../contexts/BankHolidayContext';
 import { processBankHolidays } from '../utils/processBankHolidays';
 
 export const useBankHolidays = () => {
-  const [bankHolidays, setBankHolidays] = useState<BankHoliday[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    bankHolidays,
+    initialiseBankHolidays,
+    isLoading,
+    setIsLoading,
+    error,
+    setError,
+  } = useBankHolidaysContext();
 
   const fetchHolidays = useCallback(async () => {
     try {
@@ -23,7 +28,7 @@ export const useBankHolidays = () => {
       const rawData = await response.json();
 
       const processedData = processBankHolidays(rawData);
-      setBankHolidays(processedData);
+      initialiseBankHolidays(processedData);
     } catch (err) {
       setError(
         err instanceof Error
@@ -33,7 +38,7 @@ export const useBankHolidays = () => {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [initialiseBankHolidays, setError, setIsLoading]);
 
   useEffect(() => {
     fetchHolidays();
