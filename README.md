@@ -33,7 +33,8 @@ This project uses the following tech stack:
 - date-fns;
 - Xcode/iOS Simulator;
 - Android Studio/Android Emulator;
-- Expo Go.
+- Expo Go;
+- MaterialUI.
 
 ## Future aims
 

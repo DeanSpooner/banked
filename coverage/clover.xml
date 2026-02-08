@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1770544695874" clover="3.2.0">
+  <project timestamp="1770544695874" name="All files">
+    <metrics statements="27" coveredstatements="27" conditionals="9" coveredconditionals="9" methods="9" coveredmethods="9" elements="45" coveredelements="45" complexity="0" loc="27" ncloc="27" packages="2" files="3" classes="3"/>
+    <package name="api">
+      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="schemas.ts" path="/Users/deanspooner/Repos/banked/src/api/schemas.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="utils">
+      <metrics statements="25" coveredstatements="25" conditionals="9" coveredconditionals="9" methods="9" coveredmethods="9"/>
+      <file name="mockData.ts" path="/Users/deanspooner/Repos/banked/src/utils/mockData.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="processBankHolidays.ts" path="/Users/deanspooner/Repos/banked/src/utils/processBankHolidays.ts">
+        <metrics statements="24" coveredstatements="24" conditionals="9" coveredconditionals="9" methods="9" coveredmethods="9"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="19" count="4" type="stmt"/>
+        <line num="21" count="9" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="32" count="3" type="stmt"/>
+        <line num="36" count="58" type="stmt"/>
+        <line num="37" count="371" type="cond" truecount="2" falsecount="0"/>
+        <line num="48" count="1" type="stmt"/>
+        <line num="52" count="6" type="stmt"/>
+        <line num="54" count="6" type="stmt"/>
+        <line num="56" count="6" type="stmt"/>
+        <line num="57" count="33" type="stmt"/>
+        <line num="61" count="33" type="stmt"/>
+        <line num="63" count="33" type="stmt"/>
+        <line num="66" count="33" type="cond" truecount="2" falsecount="0"/>
+        <line num="70" count="33" type="stmt"/>
+        <line num="73" count="33" type="cond" truecount="2" falsecount="0"/>
+        <line num="76" count="6" type="stmt"/>
+        <line num="88" count="1" type="stmt"/>
+        <line num="89" count="2" type="stmt"/>
+        <line num="91" count="2" type="stmt"/>
+        <line num="93" count="2" type="stmt"/>
+        <line num="97" count="2" type="stmt"/>
+        <line num="101" count="22" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>
