@@ -3,6 +3,7 @@ import { ThemedText } from '@/src/components/ThemedText';
 import { ThemedView } from '@/src/components/ThemedView';
 import { useBankHolidays } from '@/src/hooks/useBankHolidays';
 import { addToCalendar } from '@/src/utils/addToCalendar';
+import { format, parseISO } from 'date-fns';
 import { router } from 'expo-router';
 import { Alert, Platform, Pressable, ScrollView, View } from 'react-native';
 
@@ -91,7 +92,9 @@ export default function HomeScreen() {
             >
               <View style={{ alignItems: 'center' }}>
                 <ThemedText type='defaultSemiBold'>{title}</ThemedText>
-                <ThemedText>{date}</ThemedText>
+                <ThemedText>
+                  {format(parseISO(date), 'do MMMM yyyy')}
+                </ThemedText>
               </View>
             </Pressable>
             <View

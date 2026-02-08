@@ -23,4 +23,5 @@ This is a file containing the general process of me making the Banked app - this
 21. Added in confirmation modals for resetting an edited bank holiday. Also fixed keyboards so they are dismissed much more easily - found trying to save changes after typing on iOS really difficult, so have added dismiss calls to the Edit screen;
 22. Slightly tidied up the 'No bank holiday found' case on the Edit screen, while it was on my mind;
 23. Added in confirmation modals for adding a bank holiday to the device's calendar. Also addressed an old TODO about whether to pass `setOriginalBankHolidays` in the `useBankHolidaysContext` context - I'm fairly confident at this point it's not needed, so removing. Also added a `TODO.md` file as I'm finding lots of bits I need to sort out soon, and probably should note them down somewhere;
-24. Added in `SafeAreaProvider` from `react-native-safe-area-context`, and integrated into `ThemedView`. Made new `ThemedScreenWrapper` and applied to Home screen, About screen and Edit screen.
+24. Added in `SafeAreaProvider` from `react-native-safe-area-context`, and integrated into `ThemedView`. Made new `ThemedScreenWrapper` and applied to Home screen, About screen and Edit screen;
+25. Improved the date strings on the Home screen to be more readable, e.g. '2026-02-08' is now '8th February 2026'.
