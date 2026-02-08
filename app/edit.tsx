@@ -1,3 +1,4 @@
+import ThemedScreenWrapper from '@/src/components/ThemedScreenWrapper';
 import { ThemedText } from '@/src/components/ThemedText';
 import { ThemedView } from '@/src/components/ThemedView';
 import { useBankHolidaysContext } from '@/src/contexts/BankHolidayContext';
@@ -145,7 +146,7 @@ const EditScreen = () => {
 
   if (!holiday) {
     return (
-      <ThemedView style={styles.container}>
+      <ThemedScreenWrapper>
         <ThemedText type='subtitle'>
           Sorry, we encountered an issue trying to view this bank holiday.
         </ThemedText>
@@ -157,13 +158,13 @@ const EditScreen = () => {
             router.back();
           }}
         />
-      </ThemedView>
+      </ThemedScreenWrapper>
     );
   }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ThemedView style={styles.container}>
+      <ThemedScreenWrapper>
         <View style={{ flexDirection: 'row' }}>
           <ThemedText type='label'>Name</ThemedText>
           {title.length === 0 && (
@@ -220,13 +221,12 @@ const EditScreen = () => {
             }}
           />
         </ThemedView>
-      </ThemedView>
+      </ThemedScreenWrapper>
     </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16 },
   input: {
     borderWidth: 2,
     borderColor: '#0387b8',

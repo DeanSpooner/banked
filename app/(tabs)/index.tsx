@@ -1,3 +1,4 @@
+import ThemedScreenWrapper from '@/src/components/ThemedScreenWrapper';
 import { ThemedText } from '@/src/components/ThemedText';
 import { ThemedView } from '@/src/components/ThemedView';
 import { useBankHolidays } from '@/src/hooks/useBankHolidays';
@@ -54,12 +55,7 @@ export default function HomeScreen() {
   }
 
   return (
-    <ThemedView
-      style={{
-        height: '100%',
-        padding: 32,
-      }}
-    >
+    <ThemedScreenWrapper>
       <ThemedText type='title'>Banked</ThemedText>
       <ThemedText type='subtitle'>The bank holiday checker app</ThemedText>
       <ThemedText>Touch a bank holiday to edit its details:</ThemedText>
@@ -121,6 +117,6 @@ export default function HomeScreen() {
           </View>
         ))}
       </ScrollView>
-    </ThemedView>
+    </ThemedScreenWrapper>
   );
 }
