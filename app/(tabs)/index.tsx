@@ -1,20 +1,30 @@
+import { Colors, Spacing } from '@/constants/theme';
 import ThemedScreenWrapper from '@/src/components/ThemedScreenWrapper';
 import { ThemedText } from '@/src/components/ThemedText';
-import { ThemedView } from '@/src/components/ThemedView';
 import { useBankHolidays } from '@/src/hooks/useBankHolidays';
 import { addToCalendar } from '@/src/utils/addToCalendar';
 import { format, parseISO } from 'date-fns';
 import { router } from 'expo-router';
-import { Alert, Platform, Pressable, ScrollView, View } from 'react-native';
+import {
+  Alert,
+  Image,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  View,
+  useColorScheme,
+} from 'react-native';
 
 export default function HomeScreen() {
+  const colorScheme = useColorScheme();
+  const colors = Colors[colorScheme ?? 'light'];
   const { bankHolidays, isLoading, error } = useBankHolidays();
 
   const handleAddPress = (title: string, date: string) => {
-    const message = `Would you like to add "${title}" on ${date} to your device calendar?`;
+    const message = `Would you like to add "${title}" on ${format(parseISO(date), 'do MMMM yyyy')} to your device calendar?`;
 
     if (Platform.OS === 'web') {
-      // Already added messaging in addToCalendar to handle web, go straight there:
       addToCalendar(title, date);
     } else {
       Alert.alert('Add to Calendar', message, [
@@ -29,97 +39,117 @@ export default function HomeScreen() {
 
   if (isLoading) {
     return (
-      <ThemedView
-        style={{
-          height: '100%',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <ThemedText>Loading!</ThemedText>
-      </ThemedView>
+      <ThemedScreenWrapper>
+        <ThemedText>Loading…</ThemedText>
+      </ThemedScreenWrapper>
     );
   }
 
   if (error) {
     return (
-      <ThemedView
-        style={{
-          height: '100%',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
+      <ThemedScreenWrapper>
         <ThemedText>Error: {error}</ThemedText>
-      </ThemedView>
+      </ThemedScreenWrapper>
     );
   }
 
   return (
     <ThemedScreenWrapper>
-      <ThemedText type='title'>Banked</ThemedText>
-      <ThemedText type='subtitle'>The bank holiday checker app</ThemedText>
-      <ThemedText>Touch a bank holiday to edit its details:</ThemedText>
+      <Image
+        style={styles.bankedIcon}
+        source={require('@/assets/images/BankedBIcon.png')}
+      />
+      <ThemedText type='subtitle' style={styles.bankedSubtitle}>
+        Banked: The bank holiday checker app
+      </ThemedText>
+      <ThemedText style={styles.hint}>
+        Tap a bank holiday to edit its details:
+      </ThemedText>
 
-      <ScrollView style={{ flex: 1, paddingTop: 32 }}>
-        {bankHolidays.map(({ title, date, id }, index) => (
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        {bankHolidays.map(({ title, date, id }) => (
           <View
-            key={index}
-            style={{
-              paddingVertical: 12,
-              borderBottomWidth: 1,
-              borderColor: '#ccc',
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}
+            key={id}
+            style={[
+              styles.card,
+              {
+                backgroundColor: colors.cardBackground,
+                borderColor: colors.border,
+              },
+            ]}
           >
             <Pressable
-              style={{
-                flex: 1,
-                minHeight: 48,
-                padding: 8,
-                borderColor: 'green',
-                borderWidth: 1,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
+              style={({ pressed }) => [
+                styles.cardTapArea,
+                pressed && { opacity: 0.8 },
+              ]}
               onPress={() => {
-                router.push({
-                  pathname: '/edit',
-                  params: { id },
-                });
+                router.push({ pathname: '/edit', params: { id } });
               }}
             >
-              <View style={{ alignItems: 'center' }}>
+              <View style={styles.cardContent}>
                 <ThemedText type='defaultSemiBold'>{title}</ThemedText>
                 <ThemedText>
                   {format(parseISO(date), 'do MMMM yyyy')}
                 </ThemedText>
               </View>
             </Pressable>
-            <View
-              style={{
-                flex: 1,
-                alignItems: 'center',
-              }}
+            <Pressable
+              style={({ pressed }) => [
+                styles.addButton,
+                { borderColor: colors.border },
+                pressed && { opacity: 0.8 },
+              ]}
+              onPress={() => handleAddPress(title, date)}
             >
-              <Pressable
-                style={{
-                  minHeight: 48,
-                  padding: 8,
-                  borderColor: 'red',
-                  borderWidth: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-                onPress={() => handleAddPress(title, date)}
-              >
-                <ThemedText>Add to calendar</ThemedText>
-              </Pressable>
-            </View>
+              <ThemedText style={{ color: colors.success }}>
+                Add to calendar
+              </ThemedText>
+            </Pressable>
           </View>
         ))}
       </ScrollView>
     </ThemedScreenWrapper>
   );
 }
+
+const styles = StyleSheet.create({
+  bankedIcon: { width: 80, height: 80, alignSelf: 'center', marginBottom: 16 },
+  bankedSubtitle: { textAlign: 'center' },
+  hint: {
+    marginTop: 32,
+  },
+  scroll: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingTop: 16,
+    gap: 12,
+  },
+  card: {
+    flexDirection: 'row',
+    borderRadius: 16,
+    borderWidth: 1,
+  },
+  cardTapArea: {
+    flex: 1,
+    minHeight: Spacing.minTouchTarget,
+    padding: 16,
+    justifyContent: 'center',
+  },
+  cardContent: {
+    alignItems: 'flex-start',
+  },
+  addButton: {
+    minHeight: Spacing.minTouchTarget,
+    minWidth: Spacing.minTouchTarget,
+    paddingHorizontal: 16,
+    borderLeftWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

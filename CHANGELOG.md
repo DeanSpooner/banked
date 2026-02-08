@@ -28,4 +28,5 @@ This is a file containing the general process of me making the Banked app - this
 26. Added `sortHolidays` function and tests (simply ripped out of `processBankHolidays`), as I anticipate I could use this to sort out bank holiday dates after the user has edited some of them;
 27. Added `assignHolidayIds` function and tests to assign IDs to bank holidays to make sorting them safer. Also added new `BankHolidayWithId` type;
 28. Context functions all updated to correctly use IDs instead of indexes;
-29. Tidied up all places where context state setters are used, and now dates are always sorted correctly on the home screen even if they've been edited.
+29. Tidied up all places where context state setters are used, and now dates are always sorted correctly on the home screen even if they've been edited;
+30. Added new themes colours and constants, and implemented some of them in the Home screen; implemented much-improved styling on the Home screen, including now using the Banked icon I made yesterday.
