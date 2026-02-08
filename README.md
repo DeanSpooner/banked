@@ -18,7 +18,7 @@ Banked is a iOS and Android app where users can see upcoming bank holidays in th
 - [x] Display of data;
 - [x] Edit functionality;
 - [x] Calendar integration;
-- [] Styling;
+- [x] Styling;
 - [x] Testing.
 
 ## Stack

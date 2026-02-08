@@ -14,8 +14,12 @@ export default function TabLayout() {
         tabBarStyle: {
           backgroundColor: Colors[colorScheme ?? 'light'].tabBarBackground,
         },
-        tabBarActiveBackgroundColor: Colors[colorScheme ?? 'light'].background,
+        tabBarActiveBackgroundColor:
+          Colors[colorScheme ?? 'light'].tabBarActiveBackground,
+        tabBarInactiveBackgroundColor:
+          Colors[colorScheme ?? 'light'].tabBarBackground,
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarInactiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
       }}
     >
