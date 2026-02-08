@@ -1,4 +1,5 @@
 import { Colors, Spacing } from '@/constants/theme';
+import BankedIconAndSubtitle from '@/src/components/BankedIconAndSubtitle';
 import ThemedScreenWrapper from '@/src/components/ThemedScreenWrapper';
 import { ThemedText } from '@/src/components/ThemedText';
 import { useBankHolidays } from '@/src/hooks/useBankHolidays';
@@ -7,7 +8,6 @@ import { format, parseISO } from 'date-fns';
 import { router } from 'expo-router';
 import {
   Alert,
-  Image,
   Platform,
   Pressable,
   ScrollView,
@@ -40,6 +40,7 @@ export default function HomeScreen() {
   if (isLoading) {
     return (
       <ThemedScreenWrapper>
+        <BankedIconAndSubtitle />
         <ThemedText>Loading…</ThemedText>
       </ThemedScreenWrapper>
     );
@@ -48,6 +49,7 @@ export default function HomeScreen() {
   if (error) {
     return (
       <ThemedScreenWrapper>
+        <BankedIconAndSubtitle />
         <ThemedText>Error: {error}</ThemedText>
       </ThemedScreenWrapper>
     );
@@ -55,13 +57,7 @@ export default function HomeScreen() {
 
   return (
     <ThemedScreenWrapper>
-      <Image
-        style={styles.bankedIcon}
-        source={require('@/assets/images/BankedBIcon.png')}
-      />
-      <ThemedText type='subtitle' style={styles.bankedSubtitle}>
-        Banked: The bank holiday checker app
-      </ThemedText>
+      <BankedIconAndSubtitle />
       <ThemedText style={styles.hint}>
         Tap a bank holiday to edit its details:
       </ThemedText>

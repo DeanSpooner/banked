@@ -1,5 +1,3 @@
-- General styling - obviously not been the focus up to this point;
-- Actually add something to the About screen, details about the app and me;
 - Improve the loading state for the home screen, rather than just a simple string;
 - If I get round to adding pull-to-refresh, I may want a modal to confirm the user wants to do this if they have any edited dates, as these will be deleted;
 - Any of the extras in the `README.md`, if I can fit any in in the time constraints of the task;
