@@ -25,7 +25,7 @@ import { Calendar } from 'react-native-calendars';
 
 const EditScreen = () => {
   const router = useRouter();
-  const { index } = useLocalSearchParams<{ index: string }>();
+  const { id } = useLocalSearchParams<{ id: string }>();
   const {
     bankHolidays,
     originalBankHolidays,
@@ -33,13 +33,30 @@ const EditScreen = () => {
     resetBankHoliday,
   } = useBankHolidaysContext();
 
-  const holidayIndex = parseInt(index);
-  const holiday = bankHolidays[holidayIndex];
-  const originalHoliday = originalBankHolidays[holidayIndex];
-  const dateOnEditScreenEntry = holiday?.date;
+  const holiday = bankHolidays.find(h => h.id === id);
+  const originalHoliday = originalBankHolidays.find(h => h.id === id);
 
   const [title, setTitle] = useState(holiday?.title || '');
   const [date, setDate] = useState(holiday?.date || '');
+
+  if (!holiday || !originalHoliday) {
+    return (
+      <ThemedScreenWrapper>
+        <ThemedText type='subtitle'>
+          Sorry, we encountered an issue trying to view this bank holiday.
+        </ThemedText>
+        <Button
+          title='← Back to calendar'
+          color='green'
+          onPress={() => {
+            router.back();
+          }}
+        />
+      </ThemedScreenWrapper>
+    );
+  }
+
+  const dateOnEditScreenEntry = holiday.date;
 
   const handleSave = () => {
     // Check to see whether the entered title is empty. Save button should be disabled at this point anyway,
@@ -84,7 +101,7 @@ const EditScreen = () => {
     }
 
     const confirmSave = () => {
-      updateBankHoliday(holidayIndex, { ...holiday, title, date });
+      updateBankHoliday(id, { ...holiday, title, date });
       router.back();
     };
 
@@ -116,7 +133,7 @@ const EditScreen = () => {
     }
 
     const confirmReset = () => {
-      resetBankHoliday(holidayIndex);
+      resetBankHoliday(id);
       router.back();
     };
 
@@ -143,24 +160,6 @@ const EditScreen = () => {
       );
     }
   };
-
-  if (!holiday) {
-    return (
-      <ThemedScreenWrapper>
-        <ThemedText type='subtitle'>
-          Sorry, we encountered an issue trying to view this bank holiday.
-        </ThemedText>
-        <Button
-          title='← Back to calendar'
-          color='green'
-          onPress={() => {
-            resetBankHoliday(holidayIndex);
-            router.back();
-          }}
-        />
-      </ThemedScreenWrapper>
-    );
-  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -216,7 +215,6 @@ const EditScreen = () => {
             title='← Back to calendar'
             color='green'
             onPress={() => {
-              resetBankHoliday(holidayIndex);
               router.back();
             }}
           />

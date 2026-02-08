@@ -62,7 +62,7 @@ export default function HomeScreen() {
       <ThemedText>Touch a bank holiday to edit its details:</ThemedText>
 
       <ScrollView style={{ flex: 1, paddingTop: 32 }}>
-        {bankHolidays.map(({ title, date }, index) => (
+        {bankHolidays.map(({ title, date, id }, index) => (
           <View
             key={index}
             style={{
@@ -86,7 +86,7 @@ export default function HomeScreen() {
               onPress={() => {
                 router.push({
                   pathname: '/edit',
-                  params: { index },
+                  params: { id },
                 });
               }}
             >
