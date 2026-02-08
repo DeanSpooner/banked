@@ -5,9 +5,11 @@ import { ThemedView } from './ThemedView';
 const ThemedScreenWrapper = ({
   children,
   style,
+  ignoreTopInset,
 }: {
   children: React.ReactNode;
   style?: StyleProp<ViewStyle>;
+  ignoreTopInset?: boolean;
 }) => {
   return (
     <ThemedView
@@ -17,6 +19,7 @@ const ThemedScreenWrapper = ({
         },
         style,
       ]}
+      ignoreTopInset={ignoreTopInset}
     >
       <View style={{ flex: 1, margin: 16 }}>{children}</View>
     </ThemedView>

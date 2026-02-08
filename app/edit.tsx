@@ -1,3 +1,4 @@
+import { Colors, Spacing } from '@/constants/theme';
 import ThemedScreenWrapper from '@/src/components/ThemedScreenWrapper';
 import { ThemedText } from '@/src/components/ThemedText';
 import { ThemedView } from '@/src/components/ThemedView';
@@ -13,18 +14,21 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
   Alert,
-  Button,
   Keyboard,
   Platform,
+  Pressable,
   StyleSheet,
   TextInput,
   TouchableWithoutFeedback,
   View,
+  useColorScheme,
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
 const EditScreen = () => {
   const router = useRouter();
+  const colorScheme = useColorScheme();
+  const colors = Colors[colorScheme ?? 'light'];
   const { id } = useLocalSearchParams<{ id: string }>();
   const {
     bankHolidays,
@@ -45,13 +49,20 @@ const EditScreen = () => {
         <ThemedText type='subtitle'>
           Sorry, we encountered an issue trying to view this bank holiday.
         </ThemedText>
-        <Button
-          title='← Back to calendar'
-          color='green'
-          onPress={() => {
-            router.back();
-          }}
-        />
+        <Pressable
+          style={({ pressed }) => [
+            styles.actionButton,
+            { minHeight: Spacing.minTouchTarget, borderColor: colors.tint },
+            pressed && { opacity: 0.8 },
+          ]}
+          // In some cases, such as on web when refreshing, there is no navigation history for the router to push back to,
+          // so safer just to directly push to the Home screen:
+          onPress={() => router.push('/')}
+        >
+          <ThemedText style={{ color: colors.tint }}>
+            ← Back to calendar
+          </ThemedText>
+        </Pressable>
       </ThemedScreenWrapper>
     );
   }
@@ -163,78 +174,172 @@ const EditScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ThemedScreenWrapper>
-        <View style={{ flexDirection: 'row' }}>
+      <ThemedScreenWrapper ignoreTopInset>
+        <View style={styles.labelRow}>
           <ThemedText type='label'>Name</ThemedText>
           {title.length === 0 && (
             <ThemedText type='warning'>Name cannot be empty!</ThemedText>
           )}
         </View>
         <TextInput
-          style={styles.input}
+          style={[
+            styles.input,
+            {
+              borderColor: colors.border,
+              backgroundColor: colors.cardBackground,
+              color: colors.text,
+            },
+          ]}
           value={title}
           onChangeText={setTitle}
           placeholder='Type your bank holiday name here...'
+          placeholderTextColor={colors.icon}
         />
         <ThemedText type='label'>Date</ThemedText>
-        <Calendar
-          current={date}
-          minDate={format(new Date(), 'yyyy-MM-dd')}
-          maxDate={format(addMonths(new Date(), 6), 'yyyy-MM-dd')}
-          onDayPress={day => {
-            Keyboard.dismiss();
-            setDate(day.dateString);
-          }}
-          markedDates={{
-            [dateOnEditScreenEntry]: {
-              selected: true,
-              selectedColor: '#e1f5fe',
-              selectedTextColor: '#0387b8',
-              dotColor: '#0387b8',
-              marked: true,
-            },
-            [date]: {
-              selected: true,
-              selectedColor: '#0387b8',
-            },
-          }}
-        />
+        <View style={styles.calendarOuterContainer}>
+          <View
+            style={[
+              styles.calendarWrapper,
+              {
+                backgroundColor: colors.cardBackground,
+                borderColor: colors.border,
+              },
+            ]}
+          >
+            <Calendar
+              current={date}
+              minDate={format(new Date(), 'yyyy-MM-dd')}
+              maxDate={format(addMonths(new Date(), 6), 'yyyy-MM-dd')}
+              onDayPress={day => {
+                Keyboard.dismiss();
+                setDate(day.dateString);
+              }}
+              markedDates={{
+                [dateOnEditScreenEntry]: {
+                  selected: true,
+                  selectedColor: '#68d6fd',
+                  selectedTextColor: '#000',
+                  dotColor: '#0387b8',
+                  marked: true,
+                },
+                [date]: {
+                  selected: true,
+                  selectedColor: '#0387b8',
+                  selectedTextColor: '#fff',
+                },
+              }}
+              style={styles.calendarFixedHeight}
+              theme={{
+                backgroundColor: 'transparent',
+                calendarBackground: 'transparent',
+                textSectionTitleColor: colors.icon,
+                todayBackgroundColor: '#4d4d4d',
+                todayTextColor: '#fff',
+                dayTextColor: colors.text,
+                textDisabledColor: colors.icon,
+                dotColor: colors.tint,
+                arrowColor: colors.tint,
+                monthTextColor: colors.text,
+              }}
+            />
+          </View>
+        </View>
 
         <ThemedView style={styles.buttonContainer}>
-          <Button
-            title='Save changes'
+          <Pressable
+            style={({ pressed }) => [
+              styles.primaryButton,
+              {
+                backgroundColor: colors.tint,
+                minHeight: Spacing.minTouchTarget,
+                opacity: title.length === 0 ? 0.5 : pressed ? 0.8 : 1,
+              },
+            ]}
             onPress={handleSave}
             disabled={title.length === 0}
-          />
-          <Button
-            title='Reset to original bank holiday'
-            color='red'
+          >
+            <ThemedText
+              style={[styles.primaryButtonText, { color: colors.background }]}
+            >
+              Save changes
+            </ThemedText>
+          </Pressable>
+          <Pressable
+            style={({ pressed }) => [
+              styles.actionButton,
+              {
+                borderColor: colors.destructive,
+                minHeight: Spacing.minTouchTarget,
+              },
+              pressed && { opacity: 0.8 },
+            ]}
             onPress={handleReset}
-          />
-          <Button
-            title='← Back to calendar'
-            color='green'
-            onPress={() => {
-              router.back();
-            }}
-          />
+          >
+            <ThemedText style={{ color: colors.destructive }}>
+              Reset to original bank holiday
+            </ThemedText>
+          </Pressable>
+          <Pressable
+            style={({ pressed }) => [
+              styles.actionButton,
+              { borderColor: colors.border, minHeight: Spacing.minTouchTarget },
+              pressed && { opacity: 0.8 },
+            ]}
+            onPress={() => router.back()}
+          >
+            <ThemedText style={{ color: colors.tint }}>
+              ← Back to calendar
+            </ThemedText>
+          </Pressable>
         </ThemedView>
       </ThemedScreenWrapper>
     </TouchableWithoutFeedback>
   );
 };
 
+const BORDER_RADIUS = 8;
+const BORDER_WIDTH = 1;
+
 const styles = StyleSheet.create({
-  input: {
-    borderWidth: 2,
-    borderColor: '#0387b8',
-    padding: 12,
-    borderRadius: 4,
-    marginTop: 4,
-    color: '#000',
-    backgroundColor: '#fff',
+  labelRow: {
+    flexDirection: 'row',
   },
-  buttonContainer: { marginTop: 20, gap: 20 },
+  calendarOuterContainer: {
+    height: 400,
+  },
+  calendarWrapper: {
+    borderRadius: BORDER_RADIUS,
+    borderWidth: BORDER_WIDTH,
+    marginTop: 4,
+  },
+  calendarFixedHeight: {},
+  input: {
+    borderWidth: BORDER_WIDTH,
+    padding: 12,
+    borderRadius: BORDER_RADIUS,
+    marginTop: 4,
+    fontSize: 16,
+  },
+  buttonContainer: {
+    marginTop: 20,
+    gap: 12,
+  },
+  primaryButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+    paddingHorizontal: 16,
+  },
+  primaryButtonText: {
+    fontWeight: '600',
+  },
+  actionButton: {
+    borderWidth: 2,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+  },
 });
 
 export default EditScreen;

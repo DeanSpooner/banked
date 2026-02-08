@@ -5,12 +5,14 @@ import { useThemeColor } from '../hooks/use-theme-color';
 export type ThemedViewProps = ViewProps & {
   lightColor?: string;
   darkColor?: string;
+  ignoreTopInset?: boolean;
 };
 
 export function ThemedView({
   style,
   lightColor,
   darkColor,
+  ignoreTopInset = false,
   ...otherProps
 }: ThemedViewProps) {
   const backgroundColor = useThemeColor(
@@ -25,7 +27,7 @@ export function ThemedView({
       style={[
         {
           backgroundColor,
-          paddingTop: insets.top,
+          paddingTop: ignoreTopInset ? undefined : insets.top,
           paddingBottom: insets.bottom,
           paddingLeft: insets.left,
           paddingRight: insets.right,
