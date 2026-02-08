@@ -30,4 +30,5 @@ This is a file containing the general process of me making the Banked app - this
 28. Context functions all updated to correctly use IDs instead of indexes;
 29. Tidied up all places where context state setters are used, and now dates are always sorted correctly on the home screen even if they've been edited;
 30. Added new themes colours and constants, and implemented some of them in the Home screen; implemented much-improved styling on the Home screen, including now using the Banked icon I made yesterday;
-31. Large styling update to Edit screen, adding theming to calendar, and updating the buttons to now be styled Pressables. Also added `ignoreTopInset` optional prop to `ThemedScreenWrapper` and `ThemedView` for Edit screen to not have the top inset padding applied - no need for this to be applied here.
+31. Large styling update to Edit screen, adding theming to calendar, and updating the buttons to now be styled Pressables. Also added `ignoreTopInset` optional prop to `ThemedScreenWrapper` and `ThemedView` for Edit screen to not have the top inset padding applied - no need for this to be applied here;
+32. Fixed editing a bank holiday to the current date.

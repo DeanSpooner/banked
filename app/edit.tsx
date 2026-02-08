@@ -9,6 +9,7 @@ import {
   isBefore,
   isWithinInterval,
   parseISO,
+  startOfDay,
 } from 'date-fns';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
@@ -79,7 +80,7 @@ const EditScreen = () => {
     }
 
     const newDate = parseISO(date);
-    const today = new Date();
+    const today = startOfDay(new Date());
     const sixMonthsFromNow = addMonths(today, 6);
 
     // Check to see whether the entered date is within the next six months. The calendar should prevent this ever being chosen,
