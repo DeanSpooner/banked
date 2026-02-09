@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import NetInfo from '@react-native-community/netinfo';
 import {
   createContext,
   ReactNode,
@@ -6,6 +7,7 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { Platform } from 'react-native';
 import { BankHolidayWithId } from '../api/schemas';
 import { sortHolidays } from '../utils/processBankHolidays';
 
@@ -17,6 +19,7 @@ interface BankHolidayContextType {
   setIsLoading: (loading: boolean) => void;
   error: string | null;
   setError: (error: string | null) => void;
+  isConnected: boolean | null;
   initialiseBankHolidays: (
     bankHolidays: BankHolidayWithId[],
     forceRefresh?: boolean,
@@ -43,6 +46,7 @@ export const BankHolidayProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [hasHydrated, setHasHydrated] = useState(false);
+  const [isConnected, setIsConnected] = useState<boolean | null>(null);
 
   useEffect(() => {
     const loadPersistedData = async () => {
@@ -76,6 +80,31 @@ export const BankHolidayProvider = ({ children }: { children: ReactNode }) => {
       );
     }
   }, [bankHolidays, originalBankHolidays, hasHydrated]);
+
+  useEffect(() => {
+    const updateStatus = (status: boolean | null) => {
+      setIsConnected(status);
+    };
+
+    NetInfo.fetch().then(state => updateStatus(state.isConnected));
+
+    const unsubscribe = NetInfo.addEventListener(state =>
+      updateStatus(state.isConnected),
+    );
+
+    if (Platform.OS === 'web') {
+      window.addEventListener('online', () => updateStatus(true));
+      window.addEventListener('offline', () => updateStatus(false));
+
+      return () => {
+        unsubscribe();
+        window.removeEventListener('online', () => updateStatus(true));
+        window.removeEventListener('offline', () => updateStatus(false));
+      };
+    }
+
+    return () => unsubscribe();
+  }, []);
 
   const initialiseBankHolidays = (
     fetchedBankHolidays: BankHolidayWithId[],
@@ -144,6 +173,7 @@ export const BankHolidayProvider = ({ children }: { children: ReactNode }) => {
         setIsLoading,
         error,
         setError,
+        isConnected,
         initialiseBankHolidays,
         updateBankHoliday,
         resetBankHoliday,

@@ -29,12 +29,12 @@ export default function HomeScreen() {
     error,
     originalBankHolidays,
     fetchHolidays,
+    isConnected,
   } = useBankHolidays();
 
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = useCallback(async () => {
-    console.log('PULLED');
     setRefreshing(true);
     await fetchHolidays(true);
     setRefreshing(false);
@@ -85,10 +85,17 @@ export default function HomeScreen() {
   return (
     <ThemedScreenWrapper>
       <BankedIconAndSubtitle />
+      {isConnected === false && (
+        <ThemedText type='warning' style={{ flexWrap: 'wrap' }}>
+          You appear to be offline - please reconnect to load any new bank
+          holiday data.
+        </ThemedText>
+      )}
       <View
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
+          marginTop: 32,
         }}
       >
         <ThemedText style={styles.hint}>
@@ -96,13 +103,16 @@ export default function HomeScreen() {
         </ThemedText>
         <Pressable
           onPress={onRefresh}
-          disabled={refreshing}
-          style={{ alignSelf: 'flex-end' }}
+          disabled={refreshing || isConnected === false}
+          style={({ pressed }) => [
+            styles.refreshButton,
+            pressed && { opacity: 0.8 },
+          ]}
         >
           <IconSymbol
             name='arrow.clockwise'
             size={24}
-            color={colors.edit}
+            color={isConnected === false ? colors.icon : colors.edit}
             style={{ alignSelf: 'center', opacity: refreshing ? 0.5 : 1 }}
           />
         </Pressable>
@@ -187,7 +197,14 @@ const styles = StyleSheet.create({
   bankedIcon: { width: 80, height: 80, alignSelf: 'center', marginBottom: 16 },
   bankedSubtitle: { textAlign: 'center' },
   hint: {
-    marginTop: 32,
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  refreshButton: {
+    alignSelf: 'flex-end',
+    minHeight: Spacing.minTouchTarget,
+    minWidth: Spacing.minTouchTarget,
+    justifyContent: 'center',
   },
   scroll: {
     flex: 1,

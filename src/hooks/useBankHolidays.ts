@@ -12,10 +12,17 @@ export const useBankHolidays = () => {
     setIsLoading,
     error,
     setError,
+    isConnected,
   } = useBankHolidaysContext();
 
   const fetchHolidays = useCallback(
     async (forceRefresh: boolean = false) => {
+      // If offline, do not bother attempting to fetch, just return:
+      if (isConnected === false) {
+        setIsLoading(false);
+        return;
+      }
+
       // If we are not forcing a refresh and there are already entries, don't bother fetching:
       if (bankHolidays.length > 0 && !forceRefresh) {
         setIsLoading(false);
@@ -48,12 +55,18 @@ export const useBankHolidays = () => {
         setIsLoading(false);
       }
     },
-    [bankHolidays, initialiseBankHolidays, setError, setIsLoading],
+    [bankHolidays, initialiseBankHolidays, isConnected, setError, setIsLoading],
   );
 
   useEffect(() => {
     fetchHolidays();
   }, [fetchHolidays]);
+
+  useEffect(() => {
+    if (isConnected === true && error) {
+      setError(null);
+    }
+  }, [error, isConnected, setError]);
 
   return {
     bankHolidays,
@@ -61,5 +74,6 @@ export const useBankHolidays = () => {
     error,
     originalBankHolidays,
     fetchHolidays,
+    isConnected,
   };
 };
