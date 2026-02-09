@@ -12,6 +12,7 @@ export default function TabLayout() {
 
   return (
     <Tabs
+      key={resolvedTheme}
       screenOptions={{
         tabBarStyle: {
           backgroundColor: Colors[resolvedTheme].tabBarBackground,

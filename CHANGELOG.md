@@ -48,4 +48,5 @@ This is a file containing the general process of me making the Banked app - this
 46. Added in custom theme context, integrated across the entire app, and can now allow the user to override their system theme and directly select light or dark mode instead;
 47. Added a `バ` icon as a Japanese variant, to be used as part of my upcoming i18n changes where I will add in toggling between English and Japanese;
 48. Setup of i18n done, ready for English and Japanese strings. Added buttons to switch language in Settings screen, using translated strings here as a proof-of-concept;
-49. Replaced all user-facing strings with i18n localised strings for English and Japanese.
+49. Replaced all user-facing strings with i18n localised strings for English and Japanese;
+50. Solved a minor bug with the tab colours not automatically updating when theme changed. With that, I am going to mark this as complete (except for a few `README.md` updates, unless I spot any other areas to tidy up)!

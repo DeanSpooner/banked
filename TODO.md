@@ -1,3 +1,2 @@
-- Figure out how to translate the calendar, if at all possible;
-- Can't tell if it's just an Android Emulator bug, but when switching themes, the tabs seem to stick to their old colour, until each one is tapped, then it updates. iOS doesn't seem to do this.
+- Figure out how to translate the calendar, if at all possible - looks like it could be but might be quite a lot at this point https://wix.github.io/react-native-calendars/docs/Intro;
 - Any of the extras in the `README.md`, if I can fit any in in the time constraints of the task.
