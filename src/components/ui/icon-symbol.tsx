@@ -21,6 +21,7 @@ const MAPPING = {
   calendar: 'calendar-today',
   'gearshape.fill': 'settings',
   pencil: 'edit',
+  'arrow.clockwise': 'refresh',
 } as IconMapping;
 
 /**

@@ -17,7 +17,10 @@ interface BankHolidayContextType {
   setIsLoading: (loading: boolean) => void;
   error: string | null;
   setError: (error: string | null) => void;
-  initialiseBankHolidays: (bankHolidays: BankHolidayWithId[]) => void;
+  initialiseBankHolidays: (
+    bankHolidays: BankHolidayWithId[],
+    forceRefresh?: boolean,
+  ) => void;
   updateBankHoliday: (
     id: string,
     updatedBankHoliday: BankHolidayWithId,
@@ -74,7 +77,15 @@ export const BankHolidayProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [bankHolidays, originalBankHolidays, hasHydrated]);
 
-  const initialiseBankHolidays = (fetchedBankHolidays: BankHolidayWithId[]) => {
+  const initialiseBankHolidays = (
+    fetchedBankHolidays: BankHolidayWithId[],
+    forceRefresh: boolean = false,
+  ) => {
+    if (forceRefresh) {
+      setBankHolidays(fetchedBankHolidays);
+      setOriginalBankHolidays(fetchedBankHolidays);
+    }
+
     // Only update state if the current state is empty, otherwise ignore the API data completely:
     setBankHolidays(currentValue => {
       if (currentValue.length === 0) {

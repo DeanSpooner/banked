@@ -7,11 +7,13 @@ import { useBankHolidays } from '@/src/hooks/useBankHolidays';
 import { addToCalendar } from '@/src/utils/addToCalendar';
 import { format, parseISO } from 'date-fns';
 import { router } from 'expo-router';
+import { useCallback, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
   Platform,
   Pressable,
+  RefreshControl,
   ScrollView,
   StyleSheet,
   View,
@@ -21,8 +23,22 @@ import {
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme ?? 'light'];
-  const { bankHolidays, isLoading, error, originalBankHolidays } =
-    useBankHolidays();
+  const {
+    bankHolidays,
+    isLoading,
+    error,
+    originalBankHolidays,
+    fetchHolidays,
+  } = useBankHolidays();
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(async () => {
+    console.log('PULLED');
+    setRefreshing(true);
+    await fetchHolidays(true);
+    setRefreshing(false);
+  }, [fetchHolidays]);
 
   const handleAddPress = (title: string, date: string) => {
     const message = `Would you like to add "${title}" on ${format(parseISO(date), 'do MMMM yyyy')} to your device calendar?`;
@@ -69,13 +85,41 @@ export default function HomeScreen() {
   return (
     <ThemedScreenWrapper>
       <BankedIconAndSubtitle />
-      <ThemedText style={styles.hint}>
-        Tap a bank holiday to edit its details:
-      </ThemedText>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}
+      >
+        <ThemedText style={styles.hint}>
+          Tap a bank holiday to edit its details:
+        </ThemedText>
+        <Pressable
+          onPress={onRefresh}
+          disabled={refreshing}
+          style={{ alignSelf: 'flex-end' }}
+        >
+          <IconSymbol
+            name='arrow.clockwise'
+            size={24}
+            color={colors.edit}
+            style={{ alignSelf: 'center', opacity: refreshing ? 0.5 : 1 }}
+          />
+        </Pressable>
+      </View>
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
+        alwaysBounceVertical
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor={colors.text}
+            colors={[colors.tint]}
+          />
+        }
       >
         {bankHolidays.map(({ title, date, id }) => {
           const original = originalBankHolidays.find(hol => hol.id === id);
@@ -113,7 +157,7 @@ export default function HomeScreen() {
                     <IconSymbol
                       name='pencil'
                       size={24}
-                      color={colors.editPencil}
+                      color={colors.edit}
                       style={{ alignSelf: 'center' }}
                     />
                   )}

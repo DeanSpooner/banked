@@ -14,38 +14,42 @@ export const useBankHolidays = () => {
     setError,
   } = useBankHolidaysContext();
 
-  const fetchHolidays = useCallback(async () => {
-    if (bankHolidays.length > 0) {
-      setIsLoading(false);
-      return;
-    }
-
-    try {
-      // Reset the loading and error states every time this fetch is called:
-      setIsLoading(true);
-      setError(null);
-
-      const response = await fetch(BANK_HOLIDAYS_API_URL);
-
-      if (!response.ok) {
-        throw new Error(`HTTP error. Status: ${response.status}`);
+  const fetchHolidays = useCallback(
+    async (forceRefresh: boolean = false) => {
+      // If we are not forcing a refresh and there are already entries, don't bother fetching:
+      if (bankHolidays.length > 0 && !forceRefresh) {
+        setIsLoading(false);
+        return;
       }
 
-      const rawData = await response.json();
+      try {
+        // Reset the loading and error states every time this fetch is called:
+        setIsLoading(true);
+        setError(null);
 
-      const processedData = processBankHolidays(rawData);
-      initialiseBankHolidays(processedData);
-    } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : 'Sorry, an error was encountered fetching the bank holidays. Please try again later.',
-      );
-      setIsLoading(false);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [bankHolidays.length, initialiseBankHolidays, setError, setIsLoading]);
+        const response = await fetch(BANK_HOLIDAYS_API_URL);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error. Status: ${response.status}`);
+        }
+
+        const rawData = await response.json();
+
+        const processedData = processBankHolidays(rawData);
+        initialiseBankHolidays(processedData, forceRefresh);
+      } catch (err) {
+        setError(
+          err instanceof Error
+            ? err.message
+            : 'Sorry, an error was encountered fetching the bank holidays. Please try again later.',
+        );
+        setIsLoading(false);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [bankHolidays, initialiseBankHolidays, setError, setIsLoading],
+  );
 
   useEffect(() => {
     fetchHolidays();
@@ -56,5 +60,6 @@ export const useBankHolidays = () => {
     isLoading,
     error,
     originalBankHolidays,
+    fetchHolidays,
   };
 };

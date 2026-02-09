@@ -42,11 +42,11 @@ As well as the above, Banked intends to also add the following features in the f
 
 - [x] Reset edit bank holidays back to their original entry;
 - [x] Confirmation modals for editing and reset bank holiday data, and for adding to calendar;
-- [] Pull-to-refresh re-fetching of bank holiday data;
-- [] Offline support with cached data;
+- [x] Offline support with cached data;
+- [x] User settings (cached data deletion);
+- [x] Pull-to-refresh re-fetching of bank holiday data;
 - [] Swipe gestures;
 - [] i18n;
-- [] User settings (languages, theme override, cached data deletion);
 - [] Animations.
 
 ## Running this repo locally:
