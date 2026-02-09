@@ -33,4 +33,5 @@ This is a file containing the general process of me making the Banked app - this
 31. Large styling update to Edit screen, adding theming to calendar, and updating the buttons to now be styled Pressables. Also added `ignoreTopInset` optional prop to `ThemedScreenWrapper` and `ThemedView` for Edit screen to not have the top inset padding applied - no need for this to be applied here;
 32. Fixed editing a bank holiday to the current date;
 33. Added details and links to my GitHub profile and portfolio to About screen;
-34. Improved the styling of the tabs slightly, just making the colour difference between selected and unselected tabs slightly more subtle. With that, I _think_ most of the styling in the app is done at this point, for what I've built so far at least - so going to focus on extras from this point.
+34. Improved the styling of the tabs slightly, just making the colour difference between selected and unselected tabs slightly more subtle. With that, I _think_ most of the styling in the app is done at this point, for what I've built so far at least - so going to focus on extras from this point;
+35. Basic loading spinner implemented into `isLoading` for Home screen.

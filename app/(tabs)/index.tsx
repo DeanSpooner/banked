@@ -7,6 +7,7 @@ import { addToCalendar } from '@/src/utils/addToCalendar';
 import { format, parseISO } from 'date-fns';
 import { router } from 'expo-router';
 import {
+  ActivityIndicator,
   Alert,
   Platform,
   Pressable,
@@ -41,7 +42,15 @@ export default function HomeScreen() {
     return (
       <ThemedScreenWrapper>
         <BankedIconAndSubtitle />
-        <ThemedText>Loading…</ThemedText>
+        <ThemedText
+          type='defaultSemiBold'
+          style={{ fontStyle: 'italic', textAlign: 'center', marginTop: 16 }}
+        >
+          Please wait while the bank holidays are loaded...
+        </ThemedText>
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          <ActivityIndicator size={'large'} />
+        </View>
       </ThemedScreenWrapper>
     );
   }
@@ -61,7 +70,6 @@ export default function HomeScreen() {
       <ThemedText style={styles.hint}>
         Tap a bank holiday to edit its details:
       </ThemedText>
-
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.scrollContent}
