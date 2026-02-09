@@ -2,11 +2,11 @@
 
 <img src='./assets/images/Banked.png' width='200px'/>
 
-Your bank holiday checker app!
+Banked: The bank holiday checker app
 
 ## Description
 
-Banked is a iOS and Android app where users can see upcoming bank holidays in the United Kingdom. In Banked, you will be able to:
+Banked is an iOS and Android app where users can see upcoming bank holidays in the United Kingdom. In Banked, you will be able to:
 
 - see the five next bank holidays across the United Kingdom;
 - edit the name and date of bank holidays;
