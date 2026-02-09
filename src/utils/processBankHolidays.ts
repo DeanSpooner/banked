@@ -22,7 +22,14 @@ import {
 export const mergeUkBankHolidays = (rawData: unknown): BankHoliday[] => {
   const validatedData = ApiResponseSchema.parse(rawData);
 
-  return Object.values(validatedData).flatMap(region => region.events);
+  return Object.values(validatedData).flatMap(region =>
+    region.events.map(event => ({
+      ...event,
+      // Weird edge case I found while testing, noticed 'St Patrick’s Day' uses a non-standard apostrophe.
+      // Replacing with standard keyboard version:
+      title: event.title.replace(/[‘’]/g, "'").trim(),
+    })),
+  );
 };
 
 /**
