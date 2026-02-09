@@ -11,7 +11,8 @@
     "lint": "expo lint",
     "test": "jest",
     "watchTests": "jest --watchAll",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "tsc": "tsc --noEmit && echo '✨ TypeScript looks great! No errors found.'"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",

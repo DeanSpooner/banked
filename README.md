@@ -19,7 +19,7 @@ Banked is a iOS and Android app where users can see upcoming bank holidays in th
 - [x] Edit functionality;
 - [x] Calendar integration;
 - [x] Styling;
-- [x] Testing.
+- [x] Testing (Jest unit tests).
 
 ## Stack
 
@@ -47,7 +47,8 @@ As well as the above, Banked intends to also add the following features in the f
 - [x] Pull-to-refresh re-fetching of bank holiday data;
 - [] Swipe gestures;
 - [] i18n;
-- [] Animations.
+- [] Animations;
+- [] Deeper end-to-end testing with Detox.
 
 ## Running this repo locally:
 
