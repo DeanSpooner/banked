@@ -21,7 +21,10 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "permissions": ["READ_CALENDAR", "WRITE_CALENDAR"],
+      "permissions": [
+        "READ_CALENDAR",
+        "WRITE_CALENDAR"
+      ],
       "predictiveBackGestureEnabled": false
     },
     "web": {
@@ -47,7 +50,8 @@
         {
           "calendarPermission": "The app needs to access your calendar."
         }
-      ]
+      ],
+      "expo-localization"
     ],
     "experiments": {
       "typedRoutes": true,

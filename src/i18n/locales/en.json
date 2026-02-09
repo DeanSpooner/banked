@@ -1,0 +1,8 @@
+{
+  "language": "Language",
+  "themes": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  }
+}

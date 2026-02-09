@@ -4,11 +4,22 @@ import ThemedScreenWrapper from '@/src/components/ThemedScreenWrapper';
 import { ThemedText } from '@/src/components/ThemedText';
 import { useBankHolidaysContext } from '@/src/contexts/BankHolidayContext';
 import { useTheme } from '@/src/contexts/ThemeContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTranslation } from 'react-i18next';
 import { Alert, Platform, Pressable, StyleSheet, View } from 'react-native';
 
 export default function AboutScreen() {
   const { setThemeMode, resolvedTheme, themeMode } = useTheme();
   const colors = Colors[resolvedTheme];
+
+  const { t, i18n } = useTranslation();
+
+  const currentLanguage = i18n.language;
+
+  const changeLanguage = async (lang: 'en' | 'ja') => {
+    await i18n.changeLanguage(lang);
+    await AsyncStorage.setItem('user-language', lang);
+  };
 
   const { factoryReset } = useBankHolidaysContext();
 
@@ -44,16 +55,16 @@ export default function AboutScreen() {
   const modes = ['light', 'dark', 'system'] as const;
 
   const modeStrings = {
-    light: 'Light',
-    dark: 'Dark',
-    system: 'System',
+    light: t(`themes.light`),
+    dark: t(`themes.dark`),
+    system: t(`themes.system`),
   };
 
   return (
     <ThemedScreenWrapper>
       <BankedIconAndSubtitle />
       <View style={styles.container}>
-        <ThemedText type='label' style={{ marginBottom: 12 }}>
+        <ThemedText type='label' style={styles.label}>
           Appearance
         </ThemedText>
         <View
@@ -85,10 +96,41 @@ export default function AboutScreen() {
             );
           })}
         </View>
+        <ThemedText type='label' style={styles.label}>
+          {t('language')}
+        </ThemedText>
+        <View
+          style={[
+            styles.buttonRow,
+            { backgroundColor: colors.tabBarBackground },
+          ]}
+        >
+          {(['en', 'ja'] as const).map(lang => (
+            <Pressable
+              key={lang}
+              onPress={() => changeLanguage(lang)}
+              style={({ pressed }) => [
+                styles.actionButton,
+                {
+                  borderColor: colors.border,
+                  minHeight: Spacing.minTouchTarget,
+                },
+                pressed && { opacity: 0.8 },
+                lang === currentLanguage && { borderColor: colors.success },
+              ]}
+            >
+              <ThemedText style={[styles.buttonText, { color: colors.tint }]}>
+                {lang === 'en' ? 'English 🇬🇧' : '日本語 🇯🇵'}
+              </ThemedText>
+            </Pressable>
+          ))}
+        </View>
+        <ThemedText type='label' style={styles.label}>
+          Factory reset - remove all saved bank holidays from your device
+        </ThemedText>
         <Pressable
           style={({ pressed }) => [
             styles.actionButton,
-
             {
               borderColor: colors.destructive,
               minHeight: Spacing.minTouchTarget,
@@ -100,7 +142,7 @@ export default function AboutScreen() {
           <ThemedText
             style={[styles.buttonText, { color: colors.destructive }]}
           >
-            Factory reset - remove all saved bank holidays
+            Delete all saved bank holidays
           </ThemedText>
         </Pressable>
       </View>
@@ -110,7 +152,7 @@ export default function AboutScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, marginTop: 16, paddingHorizontal: 16 },
-  label: { fontSize: 14, marginBottom: 8, opacity: 0.7 },
+  label: { marginBottom: 8 },
   buttonRow: {
     flexDirection: 'row',
     padding: 4,

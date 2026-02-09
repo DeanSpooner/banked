@@ -1,0 +1,8 @@
+{
+  "language": "言語",
+  "themes": {
+    "light": "ライト",
+    "dark": "ダーク",
+    "system": "システム"
+  }
+}

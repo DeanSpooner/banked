@@ -2,6 +2,7 @@ import { BankHolidayProvider } from '@/src/contexts/BankHolidayContext';
 import { ThemeProvider } from '@/src/contexts/ThemeContext';
 import { Stack } from 'expo-router';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import '../src/i18n';
 
 export default function RootLayout() {
   return (
