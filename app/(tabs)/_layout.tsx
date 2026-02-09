@@ -3,23 +3,22 @@ import React from 'react';
 
 import { Colors } from '@/constants/theme';
 import { IconSymbol } from '@/src/components/ui/icon-symbol';
-import { useColorScheme } from 'react-native';
+import { useTheme } from '@/src/contexts/ThemeContext';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const { resolvedTheme } = useTheme();
 
   return (
     <Tabs
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: Colors[colorScheme ?? 'light'].tabBarBackground,
+          backgroundColor: Colors[resolvedTheme].tabBarBackground,
         },
         tabBarActiveBackgroundColor:
-          Colors[colorScheme ?? 'light'].tabBarActiveBackground,
-        tabBarInactiveBackgroundColor:
-          Colors[colorScheme ?? 'light'].tabBarBackground,
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        tabBarInactiveTintColor: Colors[colorScheme ?? 'light'].tint,
+          Colors[resolvedTheme].tabBarActiveBackground,
+        tabBarInactiveBackgroundColor: Colors[resolvedTheme].tabBarBackground,
+        tabBarActiveTintColor: Colors[resolvedTheme].tint,
+        tabBarInactiveTintColor: Colors[resolvedTheme].tint,
         headerShown: false,
       }}
     >

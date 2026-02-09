@@ -10,7 +10,9 @@ Banked is a iOS and Android app where users can see upcoming bank holidays in th
 
 - see the five next bank holidays across the United Kingdom;
 - edit the name and date of bank holidays;
-- save bank holidays to your device's calendar.
+- save bank holidays to your device's calendar;
+- refresh the data on swipe or by pressing the refresh button;
+- customise the theme of the app.
 
 ## Development Progress
 
@@ -45,6 +47,7 @@ As well as the above, Banked intends to also add the following features in the f
 - [x] Offline support with cached data;
 - [x] User settings (cached data deletion);
 - [x] Pull-to-refresh re-fetching of bank holiday data;
+- [x] Toggle between light mode, dark mode and system default;
 - [] Swipe gestures;
 - [] i18n;
 - [] Animations;

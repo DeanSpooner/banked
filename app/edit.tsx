@@ -3,6 +3,7 @@ import ThemedScreenWrapper from '@/src/components/ThemedScreenWrapper';
 import { ThemedText } from '@/src/components/ThemedText';
 import { ThemedView } from '@/src/components/ThemedView';
 import { useBankHolidaysContext } from '@/src/contexts/BankHolidayContext';
+import { useTheme } from '@/src/contexts/ThemeContext';
 import {
   addMonths,
   format,
@@ -22,14 +23,13 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   View,
-  useColorScheme,
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
 const EditScreen = () => {
   const router = useRouter();
-  const colorScheme = useColorScheme();
-  const colors = Colors[colorScheme ?? 'light'];
+  const { resolvedTheme } = useTheme();
+  const colors = Colors[resolvedTheme];
   const { id } = useLocalSearchParams<{ id: string }>();
   const {
     bankHolidays,

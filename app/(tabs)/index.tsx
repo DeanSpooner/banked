@@ -3,6 +3,7 @@ import BankedIconAndSubtitle from '@/src/components/BankedIconAndSubtitle';
 import ThemedScreenWrapper from '@/src/components/ThemedScreenWrapper';
 import { ThemedText } from '@/src/components/ThemedText';
 import { IconSymbol } from '@/src/components/ui/icon-symbol';
+import { useTheme } from '@/src/contexts/ThemeContext';
 import { useBankHolidays } from '@/src/hooks/useBankHolidays';
 import { addToCalendar } from '@/src/utils/addToCalendar';
 import { format, parseISO } from 'date-fns';
@@ -17,12 +18,12 @@ import {
   ScrollView,
   StyleSheet,
   View,
-  useColorScheme,
 } from 'react-native';
 
 export default function HomeScreen() {
-  const colorScheme = useColorScheme();
-  const colors = Colors[colorScheme ?? 'light'];
+  const { resolvedTheme } = useTheme();
+  const colors = Colors[resolvedTheme];
+
   const {
     bankHolidays,
     isLoading,

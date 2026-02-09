@@ -2,17 +2,12 @@ import { Colors, Spacing } from '@/constants/theme';
 import BankedIconAndSubtitle from '@/src/components/BankedIconAndSubtitle';
 import ThemedScreenWrapper from '@/src/components/ThemedScreenWrapper';
 import { ThemedText } from '@/src/components/ThemedText';
-import {
-  Linking,
-  Pressable,
-  StyleSheet,
-  View,
-  useColorScheme,
-} from 'react-native';
+import { useTheme } from '@/src/contexts/ThemeContext';
+import { Linking, Pressable, StyleSheet, View } from 'react-native';
 
 export default function AboutScreen() {
-  const colorScheme = useColorScheme();
-  const colors = Colors[colorScheme ?? 'light'];
+  const { resolvedTheme } = useTheme();
+  const colors = Colors[resolvedTheme];
 
   return (
     <ThemedScreenWrapper>
