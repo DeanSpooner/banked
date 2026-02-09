@@ -1,4 +1,4 @@
-# Banked by [Dean Spooner](https://github.com/DeanSpooner) 📆
+# Banked by [Dean Spooner](https://github.com/DeanSpooner) - v1.0.0 now available to install on Android [here](https://github.com/DeanSpooner/banked/releases/tag/1.0.0)! 📆
 
 <img src='./assets/images/Banked.png' width='200px'/>
 
