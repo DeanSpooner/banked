@@ -53,6 +53,40 @@ As well as the above, Banked intends to also add the following features in the f
 - [] Animations;
 - [] Deeper end-to-end testing with Detox.
 
+## Screenshots
+
+### Calendar/Home Screen
+
+<img src='./assets/images/screenshots/Calendar.png' width='400px'/>
+
+### Calendar/Home Screen with Edited Bank Holiday
+
+<img src='./assets/images/screenshots/EditedCalendar.png' width='400px'/>
+
+### Add to Calendar Confirmation
+
+<img src='./assets/images/screenshots/Add.png' width='400px'/>
+
+### Calendar Permission Denied Handling
+
+<img src='./assets/images/screenshots/PermissionDenied.png' width='400px'/>
+
+### Bank Holiday in Device Calendar
+
+<img src='./assets/images/screenshots/DeviceCalendar.png' width='400px'/>
+
+### Edit Screen
+
+<img src='./assets/images/screenshots/Edit.png' width='400px'/>
+
+### Settings Screen
+
+<img src='./assets/images/screenshots/Settings.png' width='400px'/>
+
+### About Screen
+
+<img src='./assets/images/screenshots/About.png' width='400px'/>
+
 ## Running this repo locally:
 
 1. Install dependencies
