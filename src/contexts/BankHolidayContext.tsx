@@ -111,21 +111,25 @@ export const BankHolidayProvider = ({ children }: { children: ReactNode }) => {
     fetchedBankHolidays: BankHolidayWithId[],
     forceRefresh: boolean = false,
   ) => {
-    const currentAndUpcomingHolidays = fetchedBankHolidays.filter(hol =>
+    const upcomingFromAPI = fetchedBankHolidays.filter(hol =>
       isTodayOrFuture(parseISO(hol.date)),
     );
 
-    if (forceRefresh) {
-      setBankHolidays(currentAndUpcomingHolidays);
-      setOriginalBankHolidays(currentAndUpcomingHolidays);
-    }
-
-    // Only update state if the current state is empty, otherwise ignore the API data completely:
     setBankHolidays(currentValue => {
-      if (currentValue.length === 0) {
-        setOriginalBankHolidays(currentAndUpcomingHolidays);
-        return fetchedBankHolidays;
+      if (forceRefresh || currentValue.length === 0) {
+        // If a holiday is edited, we do not want to overwrite that with the original holiday from the API;
+        // the user needs to actively choose to do that themselves:
+        const mergedEditedAndOriginalHolidays = upcomingFromAPI.map(
+          apiHoliday => {
+            const existingEdit = currentValue.find(h => h.id === apiHoliday.id);
+            return existingEdit ? existingEdit : apiHoliday;
+          },
+        );
+
+        setOriginalBankHolidays(upcomingFromAPI);
+        return mergedEditedAndOriginalHolidays;
       }
+
       return currentValue;
     });
 
