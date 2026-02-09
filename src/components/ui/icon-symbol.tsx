@@ -20,6 +20,7 @@ const MAPPING = {
   info: 'info',
   calendar: 'calendar-today',
   'gearshape.fill': 'settings',
+  pencil: 'edit',
 } as IconMapping;
 
 /**

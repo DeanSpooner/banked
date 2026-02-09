@@ -7,6 +7,7 @@ export const useBankHolidays = () => {
   const {
     bankHolidays,
     initialiseBankHolidays,
+    originalBankHolidays,
     isLoading,
     setIsLoading,
     error,
@@ -54,5 +55,6 @@ export const useBankHolidays = () => {
     bankHolidays,
     isLoading,
     error,
+    originalBankHolidays,
   };
 };

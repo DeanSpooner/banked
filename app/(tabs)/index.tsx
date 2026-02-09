@@ -2,6 +2,7 @@ import { Colors, Spacing } from '@/constants/theme';
 import BankedIconAndSubtitle from '@/src/components/BankedIconAndSubtitle';
 import ThemedScreenWrapper from '@/src/components/ThemedScreenWrapper';
 import { ThemedText } from '@/src/components/ThemedText';
+import { IconSymbol } from '@/src/components/ui/icon-symbol';
 import { useBankHolidays } from '@/src/hooks/useBankHolidays';
 import { addToCalendar } from '@/src/utils/addToCalendar';
 import { format, parseISO } from 'date-fns';
@@ -20,7 +21,8 @@ import {
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme ?? 'light'];
-  const { bankHolidays, isLoading, error } = useBankHolidays();
+  const { bankHolidays, isLoading, error, originalBankHolidays } =
+    useBankHolidays();
 
   const handleAddPress = (title: string, date: string) => {
     const message = `Would you like to add "${title}" on ${format(parseISO(date), 'do MMMM yyyy')} to your device calendar?`;
@@ -75,47 +77,63 @@ export default function HomeScreen() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {bankHolidays.map(({ title, date, id }) => (
-          <View
-            key={id}
-            style={[
-              styles.card,
-              {
-                backgroundColor: colors.cardBackground,
-                borderColor: colors.border,
-              },
-            ]}
-          >
-            <Pressable
-              style={({ pressed }) => [
-                styles.cardTapArea,
-                pressed && { opacity: 0.8 },
+        {bankHolidays.map(({ title, date, id }) => {
+          const original = originalBankHolidays.find(hol => hol.id === id);
+          const isEdited =
+            original && (original.title !== title || original.date !== date);
+
+          return (
+            <View
+              key={id}
+              style={[
+                styles.card,
+                {
+                  backgroundColor: colors.cardBackground,
+                  borderColor: colors.border,
+                },
               ]}
-              onPress={() => {
-                router.push({ pathname: '/edit', params: { id } });
-              }}
             >
-              <View style={styles.cardContent}>
-                <ThemedText type='defaultSemiBold'>{title}</ThemedText>
-                <ThemedText>
-                  {format(parseISO(date), 'do MMMM yyyy')}
+              <Pressable
+                style={({ pressed }) => [
+                  styles.cardTapArea,
+                  pressed && { opacity: 0.8 },
+                ]}
+                onPress={() => {
+                  router.push({ pathname: '/edit', params: { id } });
+                }}
+              >
+                <View style={{ flexDirection: 'row', gap: 16 }}>
+                  <View style={styles.cardContent}>
+                    <ThemedText type='defaultSemiBold'>{title}</ThemedText>
+                    <ThemedText>
+                      {format(parseISO(date), 'do MMMM yyyy')}
+                    </ThemedText>
+                  </View>
+                  {isEdited && (
+                    <IconSymbol
+                      name='pencil'
+                      size={24}
+                      color={colors.editPencil}
+                      style={{ alignSelf: 'center' }}
+                    />
+                  )}
+                </View>
+              </Pressable>
+              <Pressable
+                style={({ pressed }) => [
+                  styles.addButton,
+                  { borderColor: colors.border },
+                  pressed && { opacity: 0.8 },
+                ]}
+                onPress={() => handleAddPress(title, date)}
+              >
+                <ThemedText style={{ color: colors.success }}>
+                  Add to calendar
                 </ThemedText>
-              </View>
-            </Pressable>
-            <Pressable
-              style={({ pressed }) => [
-                styles.addButton,
-                { borderColor: colors.border },
-                pressed && { opacity: 0.8 },
-              ]}
-              onPress={() => handleAddPress(title, date)}
-            >
-              <ThemedText style={{ color: colors.success }}>
-                Add to calendar
-              </ThemedText>
-            </Pressable>
-          </View>
-        ))}
+              </Pressable>
+            </View>
+          );
+        })}
       </ScrollView>
     </ThemedScreenWrapper>
   );
