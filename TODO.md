@@ -1,1 +1,2 @@
+- Can't tell if it's just an Android Emulator bug, but when switching themes, the tabs seem to stick to their old colour, until each one is tapped, then it updates. iOS doesn't seem to do this.
 - Any of the extras in the `README.md`, if I can fit any in in the time constraints of the task.
