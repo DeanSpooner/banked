@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
+import { isAfter, isEqual, parseISO, startOfToday } from 'date-fns';
 import {
   createContext,
   ReactNode,
@@ -110,15 +111,19 @@ export const BankHolidayProvider = ({ children }: { children: ReactNode }) => {
     fetchedBankHolidays: BankHolidayWithId[],
     forceRefresh: boolean = false,
   ) => {
+    const currentAndUpcomingHolidays = fetchedBankHolidays.filter(hol =>
+      isTodayOrFuture(parseISO(hol.date)),
+    );
+
     if (forceRefresh) {
-      setBankHolidays(fetchedBankHolidays);
-      setOriginalBankHolidays(fetchedBankHolidays);
+      setBankHolidays(currentAndUpcomingHolidays);
+      setOriginalBankHolidays(currentAndUpcomingHolidays);
     }
 
     // Only update state if the current state is empty, otherwise ignore the API data completely:
     setBankHolidays(currentValue => {
       if (currentValue.length === 0) {
-        setOriginalBankHolidays(fetchedBankHolidays);
+        setOriginalBankHolidays(currentAndUpcomingHolidays);
         return fetchedBankHolidays;
       }
       return currentValue;
@@ -193,4 +198,13 @@ export const useBankHolidaysContext = () => {
     );
   }
   return context;
+};
+
+const isTodayOrFuture = (date: Date): boolean => {
+  const today = startOfToday();
+
+  const isHolidayToday = isEqual(date, today);
+  const isHolidayAfterToday = isAfter(date, today);
+
+  return isHolidayToday || isHolidayAfterToday;
 };

@@ -73,20 +73,12 @@ export default function HomeScreen() {
     );
   }
 
-  if (error) {
-    return (
-      <ThemedScreenWrapper>
-        <BankedIconAndSubtitle />
-        <ThemedText>Error: {error}</ThemedText>
-      </ThemedScreenWrapper>
-    );
-  }
-
   return (
     <ThemedScreenWrapper>
       <BankedIconAndSubtitle />
+      {error && <ThemedText type='warning'>Error: {error}</ThemedText>}
       {isConnected === false && (
-        <ThemedText type='warning' style={{ flexWrap: 'wrap' }}>
+        <ThemedText type='warning'>
           You appear to be offline - please reconnect to load any new bank
           holiday data.
         </ThemedText>
@@ -120,7 +112,6 @@ export default function HomeScreen() {
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
         alwaysBounceVertical
         refreshControl={
           <RefreshControl

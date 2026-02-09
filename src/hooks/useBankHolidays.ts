@@ -1,7 +1,10 @@
 import { BANK_HOLIDAYS_API_URL } from '@/constants/constants';
 import { useCallback, useEffect } from 'react';
 import { useBankHolidaysContext } from '../contexts/BankHolidayContext';
+import { mockData } from '../utils/mockData';
 import { processBankHolidays } from '../utils/processBankHolidays';
+
+const USE_MOCK = false;
 
 export const useBankHolidays = () => {
   const {
@@ -23,8 +26,8 @@ export const useBankHolidays = () => {
         return;
       }
 
-      // If we are not forcing a refresh and there are already entries, don't bother fetching:
-      if (bankHolidays.length > 0 && !forceRefresh) {
+      // If we are not forcing a refresh and there are already five entries, don't bother fetching:
+      if (bankHolidays.length >= 5 && !forceRefresh) {
         setIsLoading(false);
         return;
       }
@@ -34,13 +37,16 @@ export const useBankHolidays = () => {
         setIsLoading(true);
         setError(null);
 
-        const response = await fetch(BANK_HOLIDAYS_API_URL);
+        let rawData;
 
-        if (!response.ok) {
-          throw new Error(`HTTP error. Status: ${response.status}`);
+        if (USE_MOCK) {
+          await new Promise(resolve => setTimeout(resolve, 500));
+          rawData = mockData;
+        } else {
+          const response = await fetch(BANK_HOLIDAYS_API_URL);
+          if (!response.ok) throw new Error('API Failure');
+          rawData = await response.json();
         }
-
-        const rawData = await response.json();
 
         const processedData = processBankHolidays(rawData);
         initialiseBankHolidays(processedData, forceRefresh);
@@ -55,7 +61,13 @@ export const useBankHolidays = () => {
         setIsLoading(false);
       }
     },
-    [bankHolidays, initialiseBankHolidays, isConnected, setError, setIsLoading],
+    [
+      bankHolidays.length,
+      initialiseBankHolidays,
+      isConnected,
+      setError,
+      setIsLoading,
+    ],
   );
 
   useEffect(() => {
