@@ -48,8 +48,8 @@ As well as the above, Banked intends to also add the following features in the f
 - [x] User settings (cached data deletion);
 - [x] Pull-to-refresh re-fetching of bank holiday data;
 - [x] Toggle between light mode, dark mode and system default;
+- [x] i18n - English and Japanese integrated;
 - [] Swipe gestures;
-- [] i18n;
 - [] Animations;
 - [] Deeper end-to-end testing with Detox.
 

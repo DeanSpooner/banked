@@ -1,15 +1,23 @@
 import { ThemedText } from '@/src/components/ThemedText';
+import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet } from 'react-native';
 
 const BankedIconAndSubtitle = () => {
+  const { t, i18n } = useTranslation();
+
+  const currentLanguage = i18n.language;
+
+  const BankedBIcon = require('@/assets/images/BankedBIcon.png');
+  const BankedBaIcon = require('@/assets/images/BankedBaIcon.png');
+
   return (
     <>
       <Image
         style={styles.bankedIcon}
-        source={require('@/assets/images/BankedBIcon.png')}
+        source={currentLanguage === 'ja' ? BankedBaIcon : BankedBIcon}
       />
       <ThemedText type='subtitle' style={styles.bankedSubtitle}>
-        Banked: The bank holiday checker app
+        {t('misc.bankedTheHolidayCheckerApp')}
       </ThemedText>
     </>
   );

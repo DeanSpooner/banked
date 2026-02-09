@@ -1,8 +1,64 @@
 {
-  "language": "言語",
   "themes": {
     "light": "ライト",
     "dark": "ダーク",
     "system": "システム"
+  },
+  "calendar": {
+    "calendar": "カレンダー",
+    "pleaseWaitWhileTheBankHolidaysAreLoaded": "祝日データを読み込んでいます。しばらくお待ちください。",
+    "youAppearToBeOfflinePleaseReconnectToLoadAnyNewBankHolidayData": "オフラインのようです。新しい祝日データを読み込むには、ネットワークに再接続してください。",
+    "tapABankHolidayToEditItsDetails": "祝日をタップして詳細を編集：",
+    "addToCalendar": "カレンダーに追加",
+    "wouldYouLikeToAddTitleOnDateToYourDeviceCalendar": "{{date}}の「{{title}}」をデバイスのカレンダーに登録しますか？",
+    "cancel": "キャンセル",
+    "add": "追加",
+    "sorryAddingToCalendarsIsCurrentlyOnlyAvailableViaTheBankedApp": "申し訳ありません。カレンダーへの登録は、現在Bankedのモバイル版アプリでのみご利用いただけます",
+    "permissionDenied": "アクセス権限がありません",
+    "pleaseEnableCalendarAccessForBanked": "この機能を利用するには、デバイスの設定からBankedのカレンダーへのアクセスを許可してください。",
+    "error": "エラー",
+    "noCalendarFoundOnThisDevice": "No calendar found on this device. Please install and launch your calendar app, then try again.",
+    "bankHolidayTitle": "祝日：{{title}}",
+    "addedFromTheBankedApp": "Bankedアプリから追加されました。",
+    "success": "成功！",
+    "titleHasBeenAddedToYourCalendar": "{{title}} をカレンダーに追加しました。",
+    "failedToSaveEventToYourCalendar": "カレンダーへの予定の保存に失敗しました。"
+  },
+  "settings": {
+    "settings": "設定",
+    "appearance": "外観",
+    "language": "言語",
+    "factoryResetRemoveAllSavedBankHolidaysFromYourDevice": "工場出荷時の状態にリセット：デバイスからすべての祝日データを削除します",
+    "deleteAllSavedBankHolidays": "保存済みの祝日をすべて削除"
+  },
+  "about": {
+    "about": "このアプリについて",
+    "bankedDescription1": "Bankedは、イギリス国内の直近5つの祝日を便利に表示するアプリです。これらには連合王国を構成する4つの国（イングランド、スコットランド、ウェールズ、北アイルランド）すべての祝日が含まれています。ユーザーは各祝日の名称や日付を編集したり、設定をリセットしたりすることが可能です。",
+    "bankedDescription2": "Bankedは、アプリ兼フロントエンドWebデベロッパーのディーン・スプーナーによって開発されたアプリです。",
+    "tapHereToVisitDeansGitHubPage": "ディーンのGitHubページはこちらをタップ",
+    "tapHereToVisitDeansPortfolio": "ディーンのポートフォリオはこちらをタップ",
+    "bankedBuiltByDeanSpoonerFebruary2026": "Banked - 2026年2月 制作：Dean Spooner"
+  },
+  "edit": {
+    "editBankHoliday": "祝日の編集",
+    "sorryWeEncounteredAnIssueTryingToViewThisBankHoliday": "申し訳ありません。この祝日の表示中に問題が発生しました。",
+    "backToCalendar": "← カレンダーに戻る",
+    "nameCannotBeEmpty": "名前の入力は必須です。",
+    "error": "エラー",
+    "dateMustBeWithinTheNext6Months": "日付は6ヶ月以内で指定してください。",
+    "dateMustNotBeInThePast": "過去の日付は入力できません。",
+    "areYouSureYouWantToSaveTheseChanges": "変更を保存してもよろしいですか？",
+    "cancel": "キャンセル",
+    "save": "保存",
+    "saveChanges": "変更を保存",
+    "resetBankHoliday": "祝日の設定をリセット",
+    "thisWillRevertAllChangesInThisEditedBankHoliday": "編集した祝日の内容をすべて元に戻します。よろしいですか？",
+    "resetToOriginalBankHoliday": "元の祝日に戻す",
+    "name": "祝日の名前",
+    "typeYourBankHolidayNameHere": "祝日の名前を入力してください...",
+    "date": "日付"
+  },
+  "misc": {
+    "bankedTheHolidayCheckerApp": "Banked：祝日チェッカー"
   }
 }

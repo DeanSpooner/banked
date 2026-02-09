@@ -1,10 +1,13 @@
 import * as Calendar from 'expo-calendar';
+import { t } from 'i18next';
 import { Alert, Platform } from 'react-native';
 
 export async function addToCalendar(title: string, dateString: string) {
   if (Platform.OS === 'web') {
     window.alert(
-      'Sorry! Adding to calendars is currently only available via the Banked mobile app.',
+      t(
+        'calendar.sorryAddingToCalendarsIsCurrentlyOnlyAvailableViaTheBankedApp',
+      ),
     );
     return;
   }
@@ -13,8 +16,8 @@ export async function addToCalendar(title: string, dateString: string) {
 
   if (status !== 'granted') {
     Alert.alert(
-      'Permission Denied',
-      `Please enable calendar access for Banked in your device's settings to use this feature.`,
+      t('calendar.permissionDenied'),
+      t('calendar.pleaseEnableCalendarAccessForBanked'),
     );
     return;
   }
@@ -31,10 +34,7 @@ export async function addToCalendar(title: string, dateString: string) {
   // Found on Android (at least via my Android Emulator) that it didn't detect the calendar, even though it already had one installed.
   // I just needed to open it once for it to be detected. May only be an emulator/Expo Go thing, but think this could be helpful messaging:
   if (!defaultCalendar) {
-    Alert.alert(
-      'Error',
-      'No calendar found on this device. Please install and launch your calendar app, then try again.',
-    );
+    Alert.alert(t('calendar.error'), t('calendar.noCalendarFoundOnThisDevice'));
     return;
   }
 
@@ -43,16 +43,26 @@ export async function addToCalendar(title: string, dateString: string) {
     const endDate = new Date(dateString);
 
     await Calendar.createEventAsync(defaultCalendar.id, {
-      title: `Bank Holiday: ${title}`,
+      title: t('calendar.bankHolidayTitle', {
+        title,
+      }),
       startDate,
       endDate,
       allDay: true,
-      notes: 'Added from the Banked app.',
+      notes: t('calendar.addedFromTheBankedApp'),
     });
 
-    Alert.alert('Success!', `${title} has been added to your calendar.`);
+    Alert.alert(
+      t('calendar.success'),
+      t('calendar.titleHasBeenAddedToYourCalendar', {
+        title,
+      }),
+    );
   } catch (err) {
-    Alert.alert('Error', 'Failed to save event to your calendar.');
+    Alert.alert(
+      t('calendar.error'),
+      t('calendar.failedToSaveEventToYourCalendar'),
+    );
     console.error(err);
   }
 }

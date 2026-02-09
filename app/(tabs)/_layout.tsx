@@ -4,9 +4,11 @@ import React from 'react';
 import { Colors } from '@/constants/theme';
 import { IconSymbol } from '@/src/components/ui/icon-symbol';
 import { useTheme } from '@/src/contexts/ThemeContext';
+import { useTranslation } from 'react-i18next';
 
 export default function TabLayout() {
   const { resolvedTheme } = useTheme();
+  const { t } = useTranslation();
 
   return (
     <Tabs
@@ -25,7 +27,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name='index'
         options={{
-          title: 'Calendar',
+          title: t('calendar.calendar'),
           tabBarIcon: ({ color }) => (
             <IconSymbol size={28} name='calendar' color={color} />
           ),
@@ -34,7 +36,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name='settings'
         options={{
-          title: 'Settings',
+          title: t('settings.settings'),
           tabBarIcon: ({ color }) => (
             <IconSymbol size={28} name='gearshape.fill' color={color} />
           ),
@@ -43,7 +45,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name='about'
         options={{
-          title: 'About',
+          title: t('about.about'),
           tabBarIcon: ({ color }) => (
             <IconSymbol size={28} name='info' color={color} />
           ),

@@ -1,8 +1,64 @@
 {
-  "language": "Language",
   "themes": {
     "light": "Light",
     "dark": "Dark",
     "system": "System"
+  },
+  "calendar": {
+    "calendar": "Calendar",
+    "pleaseWaitWhileTheBankHolidaysAreLoaded": "Please wait while the bank holidays are loaded...",
+    "youAppearToBeOfflinePleaseReconnectToLoadAnyNewBankHolidayData": "You appear to be offline - please reconnect to load any new bank holiday data.",
+    "tapABankHolidayToEditItsDetails": "Tap a bank holiday to edit its details:",
+    "addToCalendar": "Add to Calendar",
+    "wouldYouLikeToAddTitleOnDateToYourDeviceCalendar": "Would you like to add \"{{title}}\" on {{date}} to your device calendar?",
+    "cancel": "Cancel",
+    "add": "Add",
+    "sorryAddingToCalendarsIsCurrentlyOnlyAvailableViaTheBankedApp": "Sorry! Adding to calendars is currently only available via the Banked mobile app.",
+    "permissionDenied": "Permission Denied",
+    "pleaseEnableCalendarAccessForBanked": "Please enable calendar access for Banked in your device's settings to use this feature.",
+    "error": "Error",
+    "noCalendarFoundOnThisDevice": "No calendar found on this device. Please install and launch your calendar app, then try again.",
+    "bankHolidayTitle": "Bank Holiday: {{title}}",
+    "addedFromTheBankedApp": "Added from the Banked app.",
+    "success": "Success!",
+    "titleHasBeenAddedToYourCalendar": "{{title}} has been added to your calendar.",
+    "failedToSaveEventToYourCalendar": "Failed to save event to your calendar."
+  },
+  "settings": {
+    "settings": "Settings",
+    "appearance": "Appearance",
+    "language": "Language",
+    "factoryResetRemoveAllSavedBankHolidaysFromYourDevice": "Factory reset - remove all saved bank holidays from your device",
+    "deleteAllSavedBankHolidays": "Delete all saved bank holidays"
+  },
+  "about": {
+    "about": "About",
+    "bankedDescription1": "Banked is an app that conveniently shows the next five bank holidays in the United Kingdom. These bank holidays are inclusive of all four nations. Users can edit the names and dates of any bank holidays, and reset these entries.",
+    "bankedDescription2": "Banked is an app created by Dean Spooner, an app and frontend web developer.",
+    "tapHereToVisitDeansGitHubPage": "Tap here to visit Dean's GitHub page",
+    "tapHereToVisitDeansPortfolio": "Tap here to visit Dean's portfolio",
+    "bankedBuiltByDeanSpoonerFebruary2026": "Banked - built by Dean Spooner, February 2026"
+  },
+  "edit": {
+    "editBankHoliday": "Edit Bank Holiday",
+    "sorryWeEncounteredAnIssueTryingToViewThisBankHoliday": "Sorry, we encountered an issue trying to view this bank holiday.",
+    "backToCalendar": "← Back to calendar",
+    "nameCannotBeEmpty": "Name cannot be empty.",
+    "error": "Error",
+    "dateMustBeWithinTheNext6Months": "Date must be within the next 6 months.",
+    "dateMustNotBeInThePast": "Date must not be in the past.",
+    "areYouSureYouWantToSaveTheseChanges": "Are you sure you want to save these changes?",
+    "cancel": "Cancel",
+    "save": "Save",
+    "saveChanges": "Save Changes",
+    "resetBankHoliday": "Reset Bank Holiday",
+    "thisWillRevertAllChangesInThisEditedBankHoliday": "This will revert all changes in this edited bank holiday back to the original bank holiday. Are you sure?",
+    "resetToOriginalBankHoliday": "Reset to original bank holiday",
+    "name": "Name",
+    "typeYourBankHolidayNameHere": "Type your bank holiday name here...",
+    "date": "Date"
+  },
+  "misc": {
+    "bankedTheHolidayCheckerApp": "Banked: The bank holiday checker app"
   }
 }

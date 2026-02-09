@@ -14,6 +14,7 @@ import {
 } from 'date-fns';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Alert,
   Keyboard,
@@ -38,6 +39,8 @@ const EditScreen = () => {
     resetBankHoliday,
   } = useBankHolidaysContext();
 
+  const { t } = useTranslation();
+
   const holiday = bankHolidays.find(h => h.id === id);
   const originalHoliday = originalBankHolidays.find(h => h.id === id);
 
@@ -48,7 +51,7 @@ const EditScreen = () => {
     return (
       <ThemedScreenWrapper>
         <ThemedText type='subtitle'>
-          Sorry, we encountered an issue trying to view this bank holiday.
+          {t('edit.sorryWeEncounteredAnIssueTryingToViewThisBankHoliday')}
         </ThemedText>
         <Pressable
           style={({ pressed }) => [
@@ -61,7 +64,7 @@ const EditScreen = () => {
           onPress={() => router.push('/')}
         >
           <ThemedText style={{ color: colors.tint }}>
-            ← Back to calendar
+            {t('edit.backToCalendar')}
           </ThemedText>
         </Pressable>
       </ThemedScreenWrapper>
@@ -75,8 +78,8 @@ const EditScreen = () => {
     // but keeping this as an extra guard (e.g. if user edits Elements Tree on web):
     if (title.trim().length === 0) {
       return Platform.OS === 'web'
-        ? window.alert('Title cannot be empty.')
-        : Alert.alert('Error', 'Title cannot be empty.');
+        ? window.alert(t('edit.nameCannotBeEmpty'))
+        : Alert.alert(t('edit.error'), t('edit.nameCannotBeEmpty'));
     }
 
     const newDate = parseISO(date);
@@ -92,16 +95,19 @@ const EditScreen = () => {
       })
     ) {
       return Platform.OS === 'web'
-        ? window.alert('Date must be within the next 6 months.')
-        : Alert.alert('Error', 'Date must be within the next 6 months.');
+        ? window.alert(t('edit.dateMustBeWithinTheNext6Months'))
+        : Alert.alert(
+            t('edit.error'),
+            t('edit.dateMustBeWithinTheNext6Months'),
+          );
     }
 
     // Check to see whether the entered date is in the past. The calendar should prevent this ever being chosen,
     // but keeping this as an extra guard anyway:
     if (isBefore(newDate, today)) {
       return Platform.OS === 'web'
-        ? window.alert('Date must not be in the past.')
-        : Alert.alert('Error', 'Date must not be in the past.');
+        ? window.alert(t('edit.dateMustNotBeInThePast'))
+        : Alert.alert(t('calendar.error'), t('edit.dateMustNotBeInThePast'));
     }
 
     const isUnchanged = title === holiday.title && date === holiday.date;
@@ -119,16 +125,16 @@ const EditScreen = () => {
 
     // Confirmation modals for all platforms, to prevent them saving too soon:
     if (Platform.OS === 'web') {
-      if (window.confirm('Are you sure you want to save these changes?')) {
+      if (window.confirm(t('edit.areYouSureYouWantToSaveTheseChanges'))) {
         confirmSave();
       }
     } else {
       Alert.alert(
-        'Save Changes',
-        'Are you sure you want to save these changes?',
+        t('edit.saveChanges'),
+        t('edit.areYouSureYouWantToSaveTheseChanges'),
         [
-          { text: 'Cancel', style: 'cancel' },
-          { text: 'Save', onPress: confirmSave },
+          { text: t('edit.cancel'), style: 'cancel' },
+          { text: t('edit.save'), onPress: confirmSave },
         ],
       );
     }
@@ -152,19 +158,19 @@ const EditScreen = () => {
     if (Platform.OS === 'web') {
       if (
         window.confirm(
-          'This will revert all changes in this edited bank holiday back to the original bank holiday. Are you sure?',
+          t('edit.thisWillRevertAllChangesInThisEditedBankHoliday'),
         )
       ) {
         confirmReset();
       }
     } else {
       Alert.alert(
-        'Reset Bank Holiday',
-        'This will revert all changes in this edited bank holiday back to the original bank holiday. Are you sure?',
+        t('edit.resetBankHoliday'),
+        t('edit.thisWillRevertAllChangesInThisEditedBankHoliday'),
         [
-          { text: 'Cancel', style: 'cancel' },
+          { text: t('edit.cancel'), style: 'cancel' },
           {
-            text: 'Reset to original bank holiday',
+            text: t('edit.resetToOriginalBankHoliday'),
             onPress: confirmReset,
             style: 'destructive',
           },
@@ -177,9 +183,11 @@ const EditScreen = () => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ThemedScreenWrapper ignoreTopInset>
         <View style={styles.labelRow}>
-          <ThemedText type='label'>Name</ThemedText>
+          <ThemedText type='label'>{t('edit.name')}</ThemedText>
           {title.length === 0 && (
-            <ThemedText type='warning'>Name cannot be empty!</ThemedText>
+            <ThemedText type='warning'>
+              {t('edit.nameCannotBeEmpty')}
+            </ThemedText>
           )}
         </View>
         <TextInput
@@ -193,10 +201,10 @@ const EditScreen = () => {
           ]}
           value={title}
           onChangeText={setTitle}
-          placeholder='Type your bank holiday name here...'
+          placeholder={t('edit.typeYourBankHolidayNameHere')}
           placeholderTextColor={colors.icon}
         />
-        <ThemedText type='label'>Date</ThemedText>
+        <ThemedText type='label'>{t('edit.date')}</ThemedText>
         <View style={styles.calendarOuterContainer}>
           <View
             style={[
@@ -245,7 +253,6 @@ const EditScreen = () => {
             />
           </View>
         </View>
-
         <ThemedView style={styles.buttonContainer}>
           <Pressable
             style={({ pressed }) => [
@@ -262,7 +269,7 @@ const EditScreen = () => {
             <ThemedText
               style={[styles.primaryButtonText, { color: colors.background }]}
             >
-              Save changes
+              {t('edit.saveChanges')}
             </ThemedText>
           </Pressable>
           <Pressable
@@ -277,7 +284,7 @@ const EditScreen = () => {
             onPress={handleReset}
           >
             <ThemedText style={{ color: colors.destructive }}>
-              Reset to original bank holiday
+              {t('edit.resetToOriginalBankHoliday')}
             </ThemedText>
           </Pressable>
           <Pressable
@@ -289,7 +296,7 @@ const EditScreen = () => {
             onPress={() => router.back()}
           >
             <ThemedText style={{ color: colors.tint }}>
-              ← Back to calendar
+              {t('edit.backToCalendar')}
             </ThemedText>
           </Pressable>
         </ThemedView>

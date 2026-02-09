@@ -55,9 +55,9 @@ export default function AboutScreen() {
   const modes = ['light', 'dark', 'system'] as const;
 
   const modeStrings = {
-    light: t(`themes.light`),
-    dark: t(`themes.dark`),
-    system: t(`themes.system`),
+    light: t('themes.light'),
+    dark: t('themes.dark'),
+    system: t('themes.system'),
   };
 
   return (
@@ -65,7 +65,7 @@ export default function AboutScreen() {
       <BankedIconAndSubtitle />
       <View style={styles.container}>
         <ThemedText type='label' style={styles.label}>
-          Appearance
+          {t('settings.appearance')}
         </ThemedText>
         <View
           style={[
@@ -97,7 +97,7 @@ export default function AboutScreen() {
           })}
         </View>
         <ThemedText type='label' style={styles.label}>
-          {t('language')}
+          {t('settings.language')}
         </ThemedText>
         <View
           style={[
@@ -126,7 +126,7 @@ export default function AboutScreen() {
           ))}
         </View>
         <ThemedText type='label' style={styles.label}>
-          Factory reset - remove all saved bank holidays from your device
+          {t('settings.factoryResetRemoveAllSavedBankHolidaysFromYourDevice')}
         </ThemedText>
         <Pressable
           style={({ pressed }) => [
@@ -142,7 +142,7 @@ export default function AboutScreen() {
           <ThemedText
             style={[styles.buttonText, { color: colors.destructive }]}
           >
-            Delete all saved bank holidays
+            {t('settings.deleteAllSavedBankHolidays')}
           </ThemedText>
         </Pressable>
       </View>

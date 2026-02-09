@@ -6,9 +6,11 @@ import { IconSymbol } from '@/src/components/ui/icon-symbol';
 import { useTheme } from '@/src/contexts/ThemeContext';
 import { useBankHolidays } from '@/src/hooks/useBankHolidays';
 import { addToCalendar } from '@/src/utils/addToCalendar';
+import { dateToJapaneseDate } from '@/src/utils/dateToJapaneseDate';
 import { format, parseISO } from 'date-fns';
 import { router } from 'expo-router';
 import { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   ActivityIndicator,
   Alert,
@@ -33,6 +35,10 @@ export default function HomeScreen() {
     isConnected,
   } = useBankHolidays();
 
+  const { t, i18n } = useTranslation();
+
+  const currentLanguage = i18n.language;
+
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = useCallback(async () => {
@@ -42,15 +48,24 @@ export default function HomeScreen() {
   }, [fetchHolidays]);
 
   const handleAddPress = (title: string, date: string) => {
-    const message = `Would you like to add "${title}" on ${format(parseISO(date), 'do MMMM yyyy')} to your device calendar?`;
+    const message = t(
+      'calendar.wouldYouLikeToAddTitleOnDateToYourDeviceCalendar',
+      {
+        title,
+        date:
+          currentLanguage === 'ja'
+            ? dateToJapaneseDate(date)
+            : format(parseISO(date), 'do MMMM yyyy'),
+      },
+    );
 
     if (Platform.OS === 'web') {
       addToCalendar(title, date);
     } else {
-      Alert.alert('Add to Calendar', message, [
-        { text: 'Cancel', style: 'cancel' },
+      Alert.alert(t('calendar.addToCalendar'), message, [
+        { text: t('calendar.cancel'), style: 'cancel' },
         {
-          text: 'Add',
+          text: t('calendar.add'),
           onPress: () => addToCalendar(title, date),
         },
       ]);
@@ -65,7 +80,7 @@ export default function HomeScreen() {
           type='defaultSemiBold'
           style={{ fontStyle: 'italic', textAlign: 'center', marginTop: 16 }}
         >
-          Please wait while the bank holidays are loaded...
+          {t('calendar.pleaseWaitWhileTheBankHolidaysAreLoaded')}
         </ThemedText>
         <View style={{ flex: 1, justifyContent: 'center' }}>
           <ActivityIndicator size={'large'} />
@@ -77,11 +92,16 @@ export default function HomeScreen() {
   return (
     <ThemedScreenWrapper>
       <BankedIconAndSubtitle />
-      {error && <ThemedText type='warning'>Error: {error}</ThemedText>}
+      {error && (
+        <ThemedText type='warning'>
+          {t('calendar.error')}: {error}
+        </ThemedText>
+      )}
       {isConnected === false && (
         <ThemedText type='warning'>
-          You appear to be offline - please reconnect to load any new bank
-          holiday data.
+          {t(
+            'calendar.youAppearToBeOfflinePleaseReconnectToLoadAnyNewBankHolidayData',
+          )}
         </ThemedText>
       )}
       <View
@@ -92,7 +112,7 @@ export default function HomeScreen() {
         }}
       >
         <ThemedText style={styles.hint}>
-          Tap a bank holiday to edit its details:
+          {t('calendar.tapABankHolidayToEditItsDetails')}
         </ThemedText>
         <Pressable
           onPress={onRefresh}
@@ -152,7 +172,9 @@ export default function HomeScreen() {
                   <View style={styles.cardContent}>
                     <ThemedText type='defaultSemiBold'>{title}</ThemedText>
                     <ThemedText>
-                      {format(parseISO(date), 'do MMMM yyyy')}
+                      {currentLanguage === 'ja'
+                        ? dateToJapaneseDate(date)
+                        : format(parseISO(date), 'do MMMM yyyy')}
                     </ThemedText>
                   </View>
                   {isEdited && (
@@ -174,7 +196,7 @@ export default function HomeScreen() {
                 onPress={() => handleAddPress(title, date)}
               >
                 <ThemedText style={{ color: colors.success }}>
-                  Add to calendar
+                  {t('calendar.addToCalendar')}
                 </ThemedText>
               </Pressable>
             </View>
