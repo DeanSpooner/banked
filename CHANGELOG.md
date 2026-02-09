@@ -35,4 +35,5 @@ This is a file containing the general process of me making the Banked app - this
 33. Added details and links to my GitHub profile and portfolio to About screen;
 34. Improved the styling of the tabs slightly, just making the colour difference between selected and unselected tabs slightly more subtle. With that, I _think_ most of the styling in the app is done at this point, for what I've built so far at least - so going to focus on extras from this point;
 35. Basic loading spinner implemented into `isLoading` for Home screen;
-36. Deleted a few more unused components provided by the template when starting this repo up.
+36. Deleted a few more unused components provided by the template when starting this repo up;
+37. Added and implemented `react-native-async-storage/async-storage` to store bank holidays locally, which was a little trickier than I thought - mainly because the app was instantly wiping over stored bank holidays with new bank holidays when re-opening the app, so had to do an override in `fetchHolidays`. I suspect I may need to make this a bit more sophisticated to handle the user's current date, pull-to-refresh etc., but as a basic store, it works.

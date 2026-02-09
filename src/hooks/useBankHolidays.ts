@@ -14,6 +14,11 @@ export const useBankHolidays = () => {
   } = useBankHolidaysContext();
 
   const fetchHolidays = useCallback(async () => {
+    if (bankHolidays.length > 0) {
+      setIsLoading(false);
+      return;
+    }
+
     try {
       // Reset the loading and error states every time this fetch is called:
       setIsLoading(true);
@@ -35,10 +40,11 @@ export const useBankHolidays = () => {
           ? err.message
           : 'Sorry, an error was encountered fetching the bank holidays. Please try again later.',
       );
+      setIsLoading(false);
     } finally {
       setIsLoading(false);
     }
-  }, [initialiseBankHolidays, setError, setIsLoading]);
+  }, [bankHolidays.length, initialiseBankHolidays, setError, setIsLoading]);
 
   useEffect(() => {
     fetchHolidays();

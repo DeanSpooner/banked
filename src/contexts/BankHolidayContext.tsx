@@ -1,4 +1,11 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { BankHolidayWithId } from '../api/schemas';
 import { sortHolidays } from '../utils/processBankHolidays';
 
@@ -22,6 +29,8 @@ const BankHolidayContext = createContext<BankHolidayContextType | undefined>(
   undefined,
 );
 
+const STORAGE_KEY = 'bankHolidaysStorage';
+
 export const BankHolidayProvider = ({ children }: { children: ReactNode }) => {
   const [bankHolidays, setBankHolidays] = useState<BankHolidayWithId[]>([]);
   const [originalBankHolidays, setOriginalBankHolidays] = useState<
@@ -29,10 +38,52 @@ export const BankHolidayProvider = ({ children }: { children: ReactNode }) => {
   >([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [hasHydrated, setHasHydrated] = useState(false);
+
+  useEffect(() => {
+    const loadPersistedData = async () => {
+      try {
+        const saved = await AsyncStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const { current, original } = JSON.parse(saved);
+          setBankHolidays(current);
+          setOriginalBankHolidays(original);
+        }
+      } catch (err) {
+        console.error('Failed to load bank holidays from storage.', err);
+      } finally {
+        setHasHydrated(true);
+        setIsLoading(false);
+      }
+    };
+
+    loadPersistedData();
+  }, []);
+
+  useEffect(() => {
+    if (hasHydrated && bankHolidays.length > 0) {
+      const dataToSave = JSON.stringify({
+        current: bankHolidays,
+        original: originalBankHolidays,
+      });
+
+      AsyncStorage.setItem(STORAGE_KEY, dataToSave).catch(err =>
+        console.error('Failed to save bank holidays to storage.', err),
+      );
+    }
+  }, [bankHolidays, originalBankHolidays, hasHydrated]);
 
   const initialiseBankHolidays = (fetchedBankHolidays: BankHolidayWithId[]) => {
-    setBankHolidays(fetchedBankHolidays);
-    setOriginalBankHolidays(fetchedBankHolidays);
+    // Only update state if the current state is empty, otherwise ignore the API data completely:
+    setBankHolidays(currentValue => {
+      if (currentValue.length === 0) {
+        setOriginalBankHolidays(fetchedBankHolidays);
+        return fetchedBankHolidays;
+      }
+      return currentValue;
+    });
+
+    setIsLoading(false);
   };
 
   const updateBankHoliday = (id: string, updatedHoliday: BankHolidayWithId) => {

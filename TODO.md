@@ -1,2 +1,7 @@
-- If I get round to adding pull-to-refresh, I may want a modal to confirm the user wants to do this if they have any edited dates, as these will be deleted;
+- Currently added local storage for bank holiday dates, but think it might need a little bit more to it to handle resetting, refreshing data etc.
+  - Reset: I might just need to do something like `await AsyncStorage.clear(STORAGE_KEY);` according to https://react-native-async-storage.github.io/2.0/API/;
+  - Refreshing:
+    1. What happens when the user logs on and a stored date is in the past? I think it should automatically delete old entries, refetch and do some kind of merge with the current holidays if there are any edited entries;
+    2. Should pull-to-refresh delete edited entries, or merge with edited? If I changed `St Patrick's Day` to `St Dean's Day` and kept the date the same, should pull-to-refresh add `St Patrick's Day` back in or recognise I already changed that myself? I think it should already see it exists in the originalHolidays, maybe I should have something on a card that makes it more obvious it's an edited/customised bank holiday;
+       3 If I get round to adding pull-to-refresh, I may want a modal to confirm the user wants to do this if they have any edited dates, as these will be deleted (unless I actually make it keep edited entries like I talk about in point 2);
 - Any of the extras in the `README.md`, if I can fit any in in the time constraints of the task.

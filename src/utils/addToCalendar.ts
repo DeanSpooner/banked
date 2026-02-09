@@ -51,8 +51,8 @@ export async function addToCalendar(title: string, dateString: string) {
     });
 
     Alert.alert('Success!', `${title} has been added to your calendar.`);
-  } catch (error) {
+  } catch (err) {
     Alert.alert('Error', 'Failed to save event to your calendar.');
-    console.error(error);
+    console.error(err);
   }
 }
