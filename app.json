@@ -2,7 +2,7 @@
   "expo": {
     "name": "Banked",
     "slug": "banked",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "icon": "./assets/images/BankedBIcon.png",
     "scheme": "banked",
     "userInterfaceStyle": "automatic",
@@ -23,9 +23,12 @@
       "edgeToEdgeEnabled": true,
       "permissions": [
         "READ_CALENDAR",
-        "WRITE_CALENDAR"
+        "WRITE_CALENDAR",
+        "android.permission.READ_CALENDAR",
+        "android.permission.WRITE_CALENDAR"
       ],
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.deanspooner.banked"
     },
     "web": {
       "output": "static",
@@ -56,6 +59,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "d20144ab-70c5-4897-a6b8-d7e4edcbbbdc"
+      }
     }
   }
 }

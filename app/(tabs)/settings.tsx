@@ -6,7 +6,14 @@ import { useBankHolidaysContext } from '@/src/contexts/BankHolidayContext';
 import { useTheme } from '@/src/contexts/ThemeContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from 'react-i18next';
-import { Alert, Platform, Pressable, StyleSheet, View } from 'react-native';
+import {
+  Alert,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 
 export default function AboutScreen() {
   const { setThemeMode, resolvedTheme, themeMode } = useTheme();
@@ -63,7 +70,7 @@ export default function AboutScreen() {
   return (
     <ThemedScreenWrapper>
       <BankedIconAndSubtitle />
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <ThemedText type='label' style={styles.label}>
           {t('settings.appearance')}
         </ThemedText>
@@ -145,7 +152,7 @@ export default function AboutScreen() {
             {t('settings.deleteAllSavedBankHolidays')}
           </ThemedText>
         </Pressable>
-      </View>
+      </ScrollView>
     </ThemedScreenWrapper>
   );
 }

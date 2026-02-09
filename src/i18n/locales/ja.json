@@ -17,7 +17,7 @@
     "permissionDenied": "アクセス権限がありません",
     "pleaseEnableCalendarAccessForBanked": "この機能を利用するには、デバイスの設定からBankedのカレンダーへのアクセスを許可してください。",
     "error": "エラー",
-    "noCalendarFoundOnThisDevice": "No calendar found on this device. Please install and launch your calendar app, then try again.",
+    "noCalendarFoundOnThisDevice": "このデバイスにカレンダーが見つかりません。カレンダーアプリをインストールして起動してから、もう一度お試しください。",
     "bankHolidayTitle": "祝日：{{title}}",
     "addedFromTheBankedApp": "Bankedアプリから追加されました。",
     "success": "成功！",

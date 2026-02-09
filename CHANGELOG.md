@@ -49,4 +49,5 @@ This is a file containing the general process of me making the Banked app - this
 47. Added a `バ` icon as a Japanese variant, to be used as part of my upcoming i18n changes where I will add in toggling between English and Japanese;
 48. Setup of i18n done, ready for English and Japanese strings. Added buttons to switch language in Settings screen, using translated strings here as a proof-of-concept;
 49. Replaced all user-facing strings with i18n localised strings for English and Japanese;
-50. Solved a minor bug with the tab colours not automatically updating when theme changed. With that, I am going to mark this as complete (except for a few `README.md` updates, unless I spot any other areas to tidy up)!
+50. Solved a minor bug with the tab colours not automatically updating when theme changed. With that, I am going to mark this as complete (except for a few `README.md` updates, unless I spot any other areas to tidy up);
+51. Pretty silly oversight - forgot I had made this app be usable in either orientation. Because I wasn't using ScrollView in each screen, on landscape a lot of content is cut off! Fixed this across each screen. Added `eas.json` with basic config provided by them, but directly building a `.apk` file from it to test directly with my friends' Android devices, which I'll host on my GitHub repo page.

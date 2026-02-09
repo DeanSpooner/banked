@@ -20,6 +20,7 @@ import {
   Keyboard,
   Platform,
   Pressable,
+  ScrollView,
   StyleSheet,
   TextInput,
   TouchableWithoutFeedback,
@@ -182,124 +183,129 @@ const EditScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ThemedScreenWrapper ignoreTopInset>
-        <View style={styles.labelRow}>
-          <ThemedText type='label'>{t('edit.name')}</ThemedText>
-          {title.length === 0 && (
-            <ThemedText type='warning'>
-              {t('edit.nameCannotBeEmpty')}
-            </ThemedText>
-          )}
-        </View>
-        <TextInput
-          style={[
-            styles.input,
-            {
-              borderColor: colors.border,
-              backgroundColor: colors.cardBackground,
-              color: colors.text,
-            },
-          ]}
-          value={title}
-          onChangeText={setTitle}
-          placeholder={t('edit.typeYourBankHolidayNameHere')}
-          placeholderTextColor={colors.icon}
-        />
-        <ThemedText type='label'>{t('edit.date')}</ThemedText>
-        <View style={styles.calendarOuterContainer}>
-          <View
-            style={[
-              styles.calendarWrapper,
-              {
-                backgroundColor: colors.cardBackground,
-                borderColor: colors.border,
-              },
-            ]}
-          >
-            <Calendar
-              current={date}
-              minDate={format(new Date(), 'yyyy-MM-dd')}
-              maxDate={format(addMonths(new Date(), 6), 'yyyy-MM-dd')}
-              onDayPress={day => {
-                Keyboard.dismiss();
-                setDate(day.dateString);
-              }}
-              markedDates={{
-                [dateOnEditScreenEntry]: {
-                  selected: true,
-                  selectedColor: '#68d6fd',
-                  selectedTextColor: '#000',
-                  dotColor: '#0387b8',
-                  marked: true,
-                },
-                [date]: {
-                  selected: true,
-                  selectedColor: '#0387b8',
-                  selectedTextColor: '#fff',
-                },
-              }}
-              style={styles.calendarFixedHeight}
-              theme={{
-                backgroundColor: 'transparent',
-                calendarBackground: 'transparent',
-                textSectionTitleColor: colors.icon,
-                todayBackgroundColor: '#4d4d4d',
-                todayTextColor: '#fff',
-                dayTextColor: colors.text,
-                textDisabledColor: colors.icon,
-                dotColor: colors.tint,
-                arrowColor: colors.tint,
-                monthTextColor: colors.text,
-              }}
-            />
+        <ScrollView>
+          <View style={styles.labelRow}>
+            <ThemedText type='label'>{t('edit.name')}</ThemedText>
+            {title.length === 0 && (
+              <ThemedText type='warning'>
+                {t('edit.nameCannotBeEmpty')}
+              </ThemedText>
+            )}
           </View>
-        </View>
-        <ThemedView style={styles.buttonContainer}>
-          <Pressable
-            style={({ pressed }) => [
-              styles.primaryButton,
+          <TextInput
+            style={[
+              styles.input,
               {
-                backgroundColor: colors.tint,
-                minHeight: Spacing.minTouchTarget,
-                opacity: title.length === 0 ? 0.5 : pressed ? 0.8 : 1,
+                borderColor: colors.border,
+                backgroundColor: colors.cardBackground,
+                color: colors.text,
               },
             ]}
-            onPress={handleSave}
-            disabled={title.length === 0}
-          >
-            <ThemedText
-              style={[styles.primaryButtonText, { color: colors.background }]}
+            value={title}
+            onChangeText={setTitle}
+            placeholder={t('edit.typeYourBankHolidayNameHere')}
+            placeholderTextColor={colors.icon}
+          />
+          <ThemedText type='label'>{t('edit.date')}</ThemedText>
+          <View style={styles.calendarOuterContainer}>
+            <View
+              style={[
+                styles.calendarWrapper,
+                {
+                  backgroundColor: colors.cardBackground,
+                  borderColor: colors.border,
+                },
+              ]}
             >
-              {t('edit.saveChanges')}
-            </ThemedText>
-          </Pressable>
-          <Pressable
-            style={({ pressed }) => [
-              styles.actionButton,
-              {
-                borderColor: colors.destructive,
-                minHeight: Spacing.minTouchTarget,
-              },
-              pressed && { opacity: 0.8 },
-            ]}
-            onPress={handleReset}
-          >
-            <ThemedText style={{ color: colors.destructive }}>
-              {t('edit.resetToOriginalBankHoliday')}
-            </ThemedText>
-          </Pressable>
-          <Pressable
-            style={({ pressed }) => [
-              styles.actionButton,
-              { borderColor: colors.border, minHeight: Spacing.minTouchTarget },
-              pressed && { opacity: 0.8 },
-            ]}
-            onPress={() => router.back()}
-          >
-            <ThemedText style={{ color: colors.tint }}>
-              {t('edit.backToCalendar')}
-            </ThemedText>
-          </Pressable>
-        </ThemedView>
+              <Calendar
+                current={date}
+                minDate={format(new Date(), 'yyyy-MM-dd')}
+                maxDate={format(addMonths(new Date(), 6), 'yyyy-MM-dd')}
+                onDayPress={day => {
+                  Keyboard.dismiss();
+                  setDate(day.dateString);
+                }}
+                markedDates={{
+                  [dateOnEditScreenEntry]: {
+                    selected: true,
+                    selectedColor: '#68d6fd',
+                    selectedTextColor: '#000',
+                    dotColor: '#0387b8',
+                    marked: true,
+                  },
+                  [date]: {
+                    selected: true,
+                    selectedColor: '#0387b8',
+                    selectedTextColor: '#fff',
+                  },
+                }}
+                style={styles.calendarFixedHeight}
+                theme={{
+                  backgroundColor: 'transparent',
+                  calendarBackground: 'transparent',
+                  textSectionTitleColor: colors.icon,
+                  todayBackgroundColor: '#4d4d4d',
+                  todayTextColor: '#fff',
+                  dayTextColor: colors.text,
+                  textDisabledColor: colors.icon,
+                  dotColor: colors.tint,
+                  arrowColor: colors.tint,
+                  monthTextColor: colors.text,
+                }}
+              />
+            </View>
+          </View>
+          <ThemedView style={styles.buttonContainer}>
+            <Pressable
+              style={({ pressed }) => [
+                styles.primaryButton,
+                {
+                  backgroundColor: colors.tint,
+                  minHeight: Spacing.minTouchTarget,
+                  opacity: title.length === 0 ? 0.5 : pressed ? 0.8 : 1,
+                },
+              ]}
+              onPress={handleSave}
+              disabled={title.length === 0}
+            >
+              <ThemedText
+                style={[styles.primaryButtonText, { color: colors.background }]}
+              >
+                {t('edit.saveChanges')}
+              </ThemedText>
+            </Pressable>
+            <Pressable
+              style={({ pressed }) => [
+                styles.actionButton,
+                {
+                  borderColor: colors.destructive,
+                  minHeight: Spacing.minTouchTarget,
+                },
+                pressed && { opacity: 0.8 },
+              ]}
+              onPress={handleReset}
+            >
+              <ThemedText style={{ color: colors.destructive }}>
+                {t('edit.resetToOriginalBankHoliday')}
+              </ThemedText>
+            </Pressable>
+            <Pressable
+              style={({ pressed }) => [
+                styles.actionButton,
+                {
+                  borderColor: colors.border,
+                  minHeight: Spacing.minTouchTarget,
+                },
+                pressed && { opacity: 0.8 },
+              ]}
+              onPress={() => router.back()}
+            >
+              <ThemedText style={{ color: colors.tint }}>
+                {t('edit.backToCalendar')}
+              </ThemedText>
+            </Pressable>
+          </ThemedView>
+        </ScrollView>
       </ThemedScreenWrapper>
     </TouchableWithoutFeedback>
   );
