@@ -2,7 +2,7 @@
 
 <img src='./assets/images/Banked.png' width='200px'/>
 
-Banked: The bank holiday checker app
+Banked: The bank holiday checker app.
 
 ## Description
 
@@ -12,7 +12,8 @@ Banked is an iOS and Android app where users can see upcoming bank holidays in t
 - edit the name and date of bank holidays;
 - save bank holidays to your device's calendar;
 - refresh the data on swipe or by pressing the refresh button;
-- customise the theme of the app.
+- customise the theme of the app;
+- switch between English and Japanese.
 
 ## Development Progress
 
