@@ -34,6 +34,8 @@ This project uses the following tech stack:
 - TypeScript;
 - Husky;
 - date-fns;
+- i18n;
+- Zod;
 - Xcode/iOS Simulator;
 - Android Studio/Android Emulator;
 - Expo Go;
