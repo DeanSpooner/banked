@@ -19,6 +19,7 @@ type IconSymbolName = keyof typeof MAPPING;
 const MAPPING = {
   info: 'info',
   calendar: 'calendar-today',
+  'gearshape.fill': 'settings',
 } as IconMapping;
 
 /**

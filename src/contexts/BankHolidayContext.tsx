@@ -23,6 +23,7 @@ interface BankHolidayContextType {
     updatedBankHoliday: BankHolidayWithId,
   ) => void;
   resetBankHoliday: (id: string) => void;
+  factoryReset: () => void;
 }
 
 const BankHolidayContext = createContext<BankHolidayContextType | undefined>(
@@ -112,6 +113,16 @@ export const BankHolidayProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
+  const factoryReset = async () => {
+    try {
+      await AsyncStorage.removeItem(STORAGE_KEY);
+      setBankHolidays([]);
+      setOriginalBankHolidays([]);
+    } catch (err) {
+      console.error('Factory reset failed.', err);
+    }
+  };
+
   return (
     <BankHolidayContext.Provider
       value={{
@@ -125,6 +136,7 @@ export const BankHolidayProvider = ({ children }: { children: ReactNode }) => {
         initialiseBankHolidays,
         updateBankHoliday,
         resetBankHoliday,
+        factoryReset,
       }}
     >
       {children}
