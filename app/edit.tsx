@@ -239,7 +239,6 @@ const EditScreen = () => {
                     selectedTextColor: '#fff',
                   },
                 }}
-                style={styles.calendarFixedHeight}
                 theme={{
                   backgroundColor: 'transparent',
                   calendarBackground: 'transparent',
@@ -319,14 +318,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   calendarOuterContainer: {
-    height: 400,
+    height: 360,
   },
   calendarWrapper: {
     borderRadius: BORDER_RADIUS,
     borderWidth: BORDER_WIDTH,
     marginTop: 4,
   },
-  calendarFixedHeight: {},
   input: {
     borderWidth: BORDER_WIDTH,
     padding: 12,

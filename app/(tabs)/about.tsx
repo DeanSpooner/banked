@@ -14,7 +14,7 @@ export default function AboutScreen() {
   return (
     <ThemedScreenWrapper>
       <BankedIconAndSubtitle />
-      <ScrollView>
+      <ScrollView style={{ flex: 1 }}>
         <ThemedText style={{ marginVertical: 16 }}>
           {t('about.bankedDescription1')}
         </ThemedText>
@@ -62,7 +62,10 @@ export default function AboutScreen() {
           </Pressable>
         </View>
         <View
-          style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}
+          style={{
+            alignItems: 'center',
+            marginTop: 64,
+          }}
         >
           <ThemedText type='defaultSemiBold' style={{ fontStyle: 'italic' }}>
             {t('about.bankedBuiltByDeanSpoonerFebruary2026')}

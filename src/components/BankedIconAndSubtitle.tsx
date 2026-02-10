@@ -24,7 +24,7 @@ const BankedIconAndSubtitle = () => {
 };
 
 const styles = StyleSheet.create({
-  bankedIcon: { width: 60, height: 60, alignSelf: 'center', marginBottom: 16 },
+  bankedIcon: { width: 40, height: 40, alignSelf: 'center', marginBottom: 16 },
   bankedSubtitle: { textAlign: 'center' },
 });
 
